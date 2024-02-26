@@ -1,0 +1,26 @@
+# use docker-compose
+version: '3.8'
+services:
+  fael_test:
+    image: stephenmao0927/fael:v2
+    container_name: fael_test
+    stdin_open: true # keeps the standard input of the container open and allows interaction with the terminal.
+    tty: true # allocates a pseudo-TTY for the container, which is required for running interactive shell commands in the container.
+    volumes: # Mount the following volumes in the container
+      - type: bind # Bind mount the host directory into the container
+        source: /home/conti/fael_docker_source/FAEL
+        target: /root/catkin_ws/src/FAEL
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment: # Set the following environment variables in the container
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute
+    network_mode: host # Use the host network stack for the container
+    deploy:
+        resources:
+            reservations:
+                devices:
+                    - driver: nvidia
+                      capabilities: [gpu]
+    command: zsh # Run the command "zsh" in the container
