@@ -1,0 +1,36 @@
+<launch>
+<!--
+Launch file for running the multirobot simulation on gazebo
+-->
+<include file="$(find gazebo_ros)/launch/empty_world.launch">
+<arg name="use_sim_time" value="true"/>
+<arg name="debug" value="false"/>
+<arg name="gui" value="true"/>
+<arg name="world_name" value="$(find hunter2_explorer)/world/garage.world"/>
+</include>
+
+
+<!-- spawn robot 1-->
+<group ns="/robot_1">
+	<include file="$(find hunter2_explorer)/launch/include/robot_new.launch">
+		<arg name="robot_name" value="robot_1"/>
+		<arg name="init_pose" value="-x -3.0 -y 0.0 -z 0.4"/>
+	</include>
+</group>
+
+<!-- spawn robot 2-->
+<group ns="/robot_2">
+	<include file="$(find hunter2_explorer)/launch/include/robot_new.launch">
+		<arg name="robot_name" value="robot_2"/>
+		<arg name="init_pose" value="-x -0.0 -y 0.0 -z 0.4"/>
+	</include>
+</group>
+
+<!-- spawn robot 3-->
+<group ns="/robot_3">
+	<include file="$(find hunter2_explorer)/launch/include/robot_new.launch">
+		<arg name="robot_name" value="robot_3"/>
+		<arg name="init_pose" value="-x 3 -y -0.0 -z 0.4"/>
+	</include>
+</group>
+</launch>

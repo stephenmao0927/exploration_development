@@ -1,0 +1,71 @@
+<launch>
+<!--
+Launch file for running the multirobot simulation on gazebo
+-->
+<include file="$(find gazebo_ros)/launch/empty_world.launch">
+<arg name="use_sim_time" value="true"/>
+<arg name="debug" value="false"/>
+<arg name="gui" value="true"/>
+<arg name="world_name" value="$(find hunter2_explorer)/world/city.world"/>
+</include>
+
+<!-- spawn robot 1-->
+<!-- 阿克曼驱动 -->
+<group ns="/robot_1">
+	<include file="$(find hunter2_explorer)/launch/include/robot_new_ackermann.launch">
+		<arg name="robot_name" value="robot_1"/>
+		<arg name="init_pose" value="-x 0.5 -y 0 -z 0"/>
+	</include>
+	<include file="$(find hunter2_explorer)/launch/include/move_base_exploration_ackermann.launch">
+		<arg name="namespace" value="robot_1"/>
+	</include> 
+</group>
+<!-- 差分驱动 -->
+<!-- <group ns="/robot_1">
+	<include file="$(find hunter2_explorer)/launch/include/robot_new.launch">
+		<arg name="robot_name" value="robot_1"/>
+		<arg name="init_pose" value="-x 0 -y 0 -z 0"/>
+	</include>
+	<include file="$(find hunter2_explorer)/launch/include/move_base_exploration.launch">
+		<arg name="namespace" value="robot_1"/>
+	</include> 
+</group> -->
+
+<!-- spawn robot 2-->
+<!-- 阿克曼驱动 -->
+<group ns="/robot_2">
+	<include file="$(find hunter2_explorer)/launch/include/robot_new_ackermann.launch">
+		<arg name="robot_name" value="robot_2"/>
+		<arg name="init_pose" value="-x -15 -y 0 -z 0"/>
+	</include>
+	<include file="$(find hunter2_explorer)/launch/include/move_base_exploration_ackermann.launch">
+		<arg name="namespace" value="robot_2"/>
+	</include> 
+</group>
+
+<group ns="/robot_3">
+	<include file="$(find hunter2_explorer)/launch/include/robot_new_ackermann.launch">
+		<arg name="robot_name" value="robot_3"/>
+		<arg name="init_pose" value="-x -5 -y -50 -z 0"/>
+	</include>
+	<include file="$(find hunter2_explorer)/launch/include/move_base_exploration_ackermann.launch">
+		<arg name="namespace" value="robot_3"/>
+	</include> 
+</group>
+
+<!-- run RViz node (visualization) -->
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find hunter2_explorer)/launch/include/rviz_config/test_voronoi.rviz">
+	<remap from="move_base_simple/goal" to="robot_1/move_base_simple/goal"/>
+</node>
+
+<!-- <node pkg="rviz" type="rviz" name="rviz2" args="-d $(find hunter2_explorer)/launch/include/rviz_config/hunter_ackermann_robot2.rviz">
+	<remap from="move_base_simple/goal" to="robot_2/move_base_simple/goal"/>
+</node> -->
+
+<node pkg="tf" type="static_transform_publisher" name="robot1_to_robot2" args="-15.5 0 0 0 0 0 robot_1/map robot_2/map 50" />
+<node pkg="tf" type="static_transform_publisher" name="robot1_to_robot3" args="-5.5 -50 0 0 0 0 robot_1/map robot_3/map 50" />
+
+
+<!-- <node pkg="rviz" type="rviz" name="rviz3" args="-d $(find hunter2_explorer)/launch/include/rviz_config/merged_map.rviz"/> -->
+
+</launch>

@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="hunter2_base" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="robot_namespace" default="/" />
+
+  <xacro:include filename="$(find hunter2_explorer)/launch/include/urdf/camera.xacro"/>
+
+  <link name="base_footprint"/>
+
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0266989327622036 0.000409203500587652 -0.135901124750884"
+        rpy="0 0 0" />
+      <mass
+        value="0.02945169536679" />
+      <inertia
+        ixx="0.0332370959804736"
+        ixy="-1.013150489971E-06"
+        ixz="-0.00188859201421112"
+        iyy="0.111072002332437"
+        iyz="-5.13308150598312E-07"
+        izz="0.12660862809283" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <joint name="footprint_to_baselink_joint" type="fixed" >
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <parent link="base_footprint"/>
+    <child link ="base_link"/>
+  </joint>
+
+  <link
+    name="front_steer_left_link">
+    <inertial>
+      <origin
+        xyz="-0.012614 1.8116E-05 0.0023132"
+        rpy="0 0 0" />
+      <mass
+        value="0.08526" />
+      <inertia
+        ixx="0.063827"
+        ixy="1.5154E-07"
+        ixz="3.1921E-07"
+        iyy="0.063827"
+        iyz="2.9854E-08"
+        izz="0.11091" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <cylinder length="0.001" radius="0.005"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <cylinder length="0.001" radius="0.005"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- <joint
+    name="front_steer_left_joint"
+    type="revolute">
+    <origin
+      xyz="0.37142 0.29199 -0.1955"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_steer_left_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-0.69"
+      upper="0.69"
+      effort="0"
+      velocity="0" />
+  </joint> -->
+  <joint
+    name="front_steer_left_joint"
+    type="fixed">
+    <origin
+      xyz="0.37142 0.29199 -0.1955"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_steer_left_link" />
+  </joint>
+  <link
+    name="front_left_wheel_link">
+    <inertial>
+      <origin
+        xyz="-6.5774E-06 2.0242E-05 -0.0096386"
+        rpy="0 0 0" />
+      <mass
+        value="0.07007" />
+      <inertia
+        ixx="0.063724"
+        ixy="-3.8745E-08"
+        ixz="2.2753E-07"
+        iyy="0.063724"
+        iyz="-4.88E-08"
+        izz="0.11072" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/front_left_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/front_left_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- <joint
+    name="front_left_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="front_steer_left_link" />
+    <child
+      link="front_left_wheel_link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint> -->
+  <joint
+    name="front_left_wheel_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="front_steer_left_link" />
+    <child
+      link="front_left_wheel_link" />
+    <!-- <axis
+      xyz="0 0 -1" /> -->
+  </joint>
+  <link
+    name="front_steer_right_link">
+    <inertial>
+      <origin
+        xyz="-8.9374E-08 1.0997E-07 0.0095958"
+        rpy="0 0 0" />
+      <mass
+        value="0.0696" />
+      <inertia
+        ixx="0.063704"
+        ixy="-6.3892E-08"
+        ixz="-2.0159E-08"
+        iyy="0.063704"
+        iyz="6.4721E-08"
+        izz="0.11068" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <cylinder length="0.001" radius="0.005"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <cylinder length="0.001" radius="0.005"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- <joint
+    name="front_steer_right_joint"
+    type="revolute">
+    <origin
+      xyz="0.37142 -0.29201 -0.1955"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_steer_right_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-0.69"
+      upper="0.69"
+      effort="0"
+      velocity="0" />
+  </joint> -->
+  <joint
+    name="front_steer_right_joint"
+    type="fixed">
+    <origin
+      xyz="0.37142 -0.29201 -0.1955"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_steer_right_link" />
+  </joint>
+  <link
+    name="front_right_wheel_link">
+    <inertial>
+      <origin
+        xyz="-9.1148E-08 1.1284E-07 0.0095049"
+        rpy="0 0 0" />
+      <mass
+        value="0.05613" />
+      <inertia
+        ixx="0.063626"
+        ixy="-6.4092E-08"
+        ixz="-2.0164E-08"
+        iyy="0.063626"
+        iyz="6.4721E-08"
+        izz="0.11054" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 3.14 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/front_left_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/front_right_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- <joint
+    name="front_right_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="front_steer_right_link" />
+    <child
+      link="front_right_wheel_link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint> -->
+  <joint
+    name="front_right_wheel_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="front_steer_right_link" />
+    <child
+      link="front_right_wheel_link" />
+  </joint>
+  <link
+    name="left_rear_link">
+    <inertial>
+      <origin
+        xyz="-8.826E-05 6.4342E-05 -0.0096491"
+        rpy="0 0 0" />
+      <mass
+        value="0.06692" />
+      <inertia
+        ixx="0.063699"
+        ixy="-2.542E-07"
+        ixz="2.638E-08"
+        iyy="0.063699"
+        iyz="-5.9934E-08"
+        izz="0.11067" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/left_rear_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/left_rear_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- <joint
+    name="left_rear_joint"
+    type="continuous">
+    <origin
+      xyz="-0.28 0.29249 -0.19558"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="left_rear_link" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint> -->
+  <joint
+    name="left_rear_joint"
+    type="fixed">
+    <origin
+      xyz="-0.28 0.29249 -0.19558"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="left_rear_link" />
+  </joint>
+  <link
+    name="right_rear_link">
+    <inertial>
+      <origin
+        xyz="8.6344E-05 7.4488E-05 0.0097824"
+        rpy="0 0 0" />
+      <mass
+        value="0.07133" />
+      <inertia
+        ixx="0.06373"
+        ixy="2.5408E-07"
+        ixz="2.6379E-08"
+        iyy="0.06373"
+        iyz="5.9941E-08"
+        izz="0.11073" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/right_rear_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://hunter2_base/meshes/right_rear_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- <joint
+    name="right_rear_joint"
+    type="continuous">
+    <origin
+      xyz="-0.28018 -0.29251 -0.19558"
+      rpy="1.5708 0.0026575 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="right_rear_link" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint> -->
+  <joint
+    name="right_rear_joint"
+    type="fixed">
+    <origin
+      xyz="-0.28018 -0.29251 -0.19558"
+      rpy="1.5708 0.0026575 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="right_rear_link" />
+  </joint>
+  <link
+    name="front_steer_link">
+    <inertial>
+      <origin
+        xyz="0.049836 8.1046E-15 0.017912"
+        rpy="0 0 0" />
+      <mass
+        value="0.0049179" />
+      <inertia
+        ixx="1.6846E-07"
+        ixy="7.6396E-23"
+        ixz="-1.0974E-08"
+        iyy="7.549E-07"
+        iyz="-1.8957E-22"
+        izz="7.334E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <cylinder length="0.001" radius="0.005"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <cylinder length="0.001" radius="0.005"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- <joint
+    name="front_steer_joint"
+    type="revolute">
+    <origin
+      xyz="0.44792 -1.1431E-05 -0.121"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_steer_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.72"
+      upper="0.72"
+      effort="0"
+      velocity="0" />
+  </joint> -->
+  <joint
+    name="front_steer_joint"
+    type="fixed">
+    <origin
+      xyz="0.44792 -1.1431E-05 -0.121"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_steer_link" />
+  </joint>
+  <link
+    name="rear_wheel_link">
+    <inertial>
+      <origin
+        xyz="-0.02 0.0031269 -0.12735"
+        rpy="0 0 0" />
+      <mass
+        value="0.0049179" />
+      <inertia
+        ixx="1.1821E-06"
+        ixy="9.6965E-13"
+        ixz="-3.1553E-12"
+        iyy="9.5276E-07"
+        iyz="1.2428E-08"
+        izz="1.0913E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <cylinder length="0.001" radius="0.005"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <cylinder length="0.001" radius="0.005"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- <joint
+    name="rear_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="-0.42408 -1.1431E-05 -0.085581"
+      rpy="0.0032313 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="rear_wheel_link" />
+    <axis
+      xyz="0 0 1" />
+  </joint> -->
+  <joint
+    name="rear_wheel_joint"
+    type="fixed">
+    <origin
+      xyz="-0.42408 -1.1431E-05 -0.085581"
+      rpy="0.0032313 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="rear_wheel_link" />
+  </joint>
+  
+  <gazebo reference="front_left_wheel_link"> 
+      <material>Gazebo/Grey </material>
+      </gazebo>
+  <gazebo reference="front_right_wheel_link"> 
+      <material>Gazebo/Grey </material>
+      </gazebo>
+  <gazebo reference="right_rear_link"> 
+      <material>Gazebo/Grey </material>
+      </gazebo>
+  <gazebo reference="left_rear_link"> 
+      <material>Gazebo/Grey </material>
+      </gazebo>
+
+  <!-- add sensor -->
+  <!-- 1. laser -->
+  <link name="laser_holder">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.35"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  <joint name="laser_holder_joint" type="fixed">
+    <origin xyz="0 0 0.2" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="laser_holder"/>
+  </joint>
+  <!-- hokuyo -->
+  <gazebo reference="laser_holder">
+   <sensor type="ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.570796</min_angle>
+            <max_angle>1.570796</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>60</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+               reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+       <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>base_scan</topicName>
+        <frameName>laser_holder</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <!-- 2. camera -->
+  <link name="camera_holder"/>
+  <joint name="camera_holder_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="laser_holder"/>
+    <child link="camera_holder"/>
+  </joint>
+  <xacro:camera_rgb parent_link="camera_holder"/>
+  <!-- controller -->
+  <!-- <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotSimType>steer_bot_hardware_gazebo/SteerBotHardwareGazebo</robotSimType>
+      <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo> -->
+
+
+  <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>$(arg robot_namespace)/odom</odometryFrame>
+      <odometryRate>20.0</odometryRate>
+      <robotBaseFrame>$(arg robot_namespace)/base_footprint</robotBaseFrame>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>$(arg robot_namespace)</robotNamespace>
+    </plugin>
+  </gazebo>
+  <!-- <gazebo>
+    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <updateRate>50.0</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>imu/data</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005 </rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+  </gazebo> -->
+
+<!--GPS sensor-->
+  <!-- <gazebo>
+    <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <updateRate>40</updateRate>
+      <bodyName>base_link</bodyName>
+      <frameId>base_link</frameId>
+      <topicName>navsat/fix</topicName>
+      <velocityTopicName>navsat/vel</velocityTopicName>
+      <referenceLatitude>$(optenv DATUM_LAT 49.9)</referenceLatitude>
+      <referenceLongitude>$(optenv DATUM_LON 8.9)</referenceLongitude>
+      <referenceHeading>0</referenceHeading>
+      <referenceAltitude>0</referenceAltitude>
+      <drift>0.0001 0.0001 0.0001</drift>
+    </plugin>
+  </gazebo> -->
+
+
+
+</robot>

@@ -1,0 +1,24 @@
+global_costmap:
+
+  global_frame: map
+  robot_base_frame: base_footprint
+  update_frequency: 4.0 # from 2 to 4
+  publish_frequency: 4.0 # from 2 to 4
+  static_map: false
+  rolling_window: true
+  allow_unknown: true
+  obstacle_range: 200
+  raytrace_range: 150 
+  width: 200.0
+  height: 200.0
+  resolution: 0.1
+  # adding boundary layer parameters
+  boundary_x: 95.0 
+  boundary_y: 75.0 
+  boundary_width: 45
+  boundary_height: 50
+
+  plugins:
+    - {name: traversability,          type: "costmap_2d::StaticLayer"}
+    - {name: inflation,               type: "costmap_2d::InflationLayer"}
+    - {name: boundary,                type: "boundary_layer::BoundaryLayer"}

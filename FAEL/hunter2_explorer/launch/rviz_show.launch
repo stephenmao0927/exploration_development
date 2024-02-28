@@ -1,0 +1,12 @@
+<launch>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find hunter2_explorer)/launch/include/rviz_config/hunter_2.rviz">
+		<remap from="move_base_simple/goal" to="robot_2/move_base_simple/goal"/>
+		<remap from="clicked_point" to="robot_2/clicked_point"/>
+	</node>
+
+    <node pkg="rviz" type="rviz" name="rviz2" args="-d $(find hunter2_explorer)/launch/include/rviz_config/hunter_1.rviz">
+		<remap from="move_base_simple/goal" to="robot_1/move_base_simple/goal"/>
+		<remap from="clicked_point" to="robot_1/clicked_point"/>
+	</node>
+</launch>

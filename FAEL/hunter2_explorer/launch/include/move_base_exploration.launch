@@ -1,0 +1,39 @@
+<!-- move base -->
+<launch>
+  <master auto="start"/>
+
+  <arg name="namespace"/>
+
+
+  <param name="use_sim_time" value="true" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+    <!-- <param name="controller_frequency" value="20.0" />
+    <param name="controller_patience" value="3.0" />
+    <param name="oscillation_timeout" value="30.0" />
+    <param name="oscillation_distance" value="0.5" />
+    <param name="planner_patience" value="1" />
+    <param name="controller_patience" value="1" />  -->
+    <remap from="cmd_vel" to="cmd_vel"/>
+    <param name="recovery_behavior_enabled" value="false" />
+    <rosparam file="$(find hunter2_explorer)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find hunter2_explorer)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find hunter2_explorer)/param/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find hunter2_explorer)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find hunter2_explorer)/param/planner.yaml" command="load" />  
+    <!-- load planner -->
+    <!-- <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/> -->
+    <param name="base_global_planner" value="navfn/NavfnROS"/>
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+    <!-- <rosparam file="$(find hunter2_explorer)/param/planner.yaml" command="load"/> -->
+    <param name="global_costmap/global_frame" value="$(arg namespace)/map"/>
+    <!-- change base_footprint to body -->
+    <param name="global_costmap/robot_base_frame" value="$(arg namespace)/body"/> 
+    <param name="global_costmap/traversability/map_topic" value="occupancy_map_local"/>
+    <param name="local_costmap/global_frame" value="$(arg namespace)/map"/>
+    <!-- change base_footprint to body -->
+    <param name="local_costmap/robot_base_frame" value="$(arg namespace)/body"/>
+    <param name="local_costmap/traversability/map_topic" value="occupancy_map_local"/>
+  </node>
+
+</launch>

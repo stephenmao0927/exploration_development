@@ -1,0 +1,5 @@
+<launch>
+<node pkg="hunter2_explorer" type="run_robot3.py" name="move3" output="screen"/>
+<node pkg="hunter2_explorer" type="run_robot2.py" name="move2" output="screen"/>
+<node pkg="hunter2_explorer" type="run_robot1.py" name="move1" output="screen"/>
+</launch>
