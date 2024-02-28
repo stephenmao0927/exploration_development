@@ -1,0 +1,4235 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="default">
+    <scene>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+      <ambient>0.592 0.624 0.635 1</ambient> <!-- 0.4 0.4 0.4 1 -->
+      <sky>
+        <clouds>
+          <speed>6</speed>
+        </clouds>
+      </sky>
+      <!-- <shadows>1</shadows> -->
+      <background>0.35 0.35 0.35 1.0</background> <!-- 0.7 0.7 0.7 1 -->
+    </scene>
+    
+    <audio>
+    <device>default</device>
+    </audio>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.005</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>200</real_time_update_rate>
+    </physics>
+    <plugin name='ros_interface_plugin' filename='librotors_gazebo_ros_interface_plugin.so'/>
+    <!-- A global light source -->
+    <light type="directional" name="sun">
+      <pose>0 0 1000 0 0 0</pose>        <!-- 0 0 10 0 0 0-->
+      <cast_shadows>true</cast_shadows>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.4</direction>
+    </light>
+    
+    <!-- ground plane -->
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+
+    <!-- Environment -->
+    <include>
+      <name>city_terrain_1</name>
+      <pose> 0 0 0.0 0 0 0 </pose>
+      <uri>model://city_terrain</uri> 
+      <!-- <uri>model://vrc_driving_terrain</uri> -->
+    </include>
+
+    <include>
+      <name>ocean_2</name>
+      <pose>40 -20 -2 0 0 0</pose>
+      <uri>model://ocean</uri>
+    </include>
+
+    <!-- Main roads -->
+    <road name="road_x_1">                <!-- X-direction -->
+      <width>6.0</width>
+      <point>-49.0 -52.0 0.01</point>     <!-- 40.0 -52.0 0.01 -->
+      <point>120.0 -52.0 0.01</point>
+    </road>
+
+    <road name="road_x_2">
+      <width>8.0</width>
+      <point>-49.0 0 0.01</point>         <!-- 40.0 0 0.01 -->
+      <point>120.0 0 0.01</point>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Residential</name>
+        </script>
+      </material>
+    </road>
+
+    <road name="road_x_3">
+      <width>6.0</width>
+      <point>-49.0 52.0 0.01</point>      <!-- 40.0 52.0 0.01 -->
+      <point>120.0 52.0 0.01</point>
+    </road>
+    
+    <road name="road_x_4">
+      <width>6.0</width>
+      <point>-10 -99 0.01</point>
+      <point>114 -99 0.01</point>
+    </road>
+
+    <road name="road_y_0">                <!-- Y-direction -->
+      <width>6.0</width>
+      <point>-46.0 -49.0 0.01</point>
+      <point>-46.0 49.0 0.01</point>
+    </road>
+    
+    
+    <road name="road_y_1">             
+      <width>6.0</width>
+      <point>-37 -49.0 0.01</point>
+      <point>-37 49.0 0.01</point>
+    </road>
+
+    <road name="road_y_2">
+      <width>8.0</width>
+      <point>-6 -49.0 0.01</point>
+      <point>-6 49.0 0.01</point>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Residential</name>
+        </script>
+      </material>
+    </road>
+
+    <road name="road_y_3">
+      <width>8.0</width>
+      <point>40 -49.0 0.01</point>
+      <point>40 49.0 0.01</point>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Residential</name>
+        </script>
+      </material>
+    </road>
+
+    <road name="road_y_4">
+      <width>6.0</width>
+      <point>117 -49.0 0.01</point>
+      <point>117 49.0 0.01</point>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Residential</name>
+        </script>
+      </material>
+    </road>
+    
+    <road name="road_y_5">
+      <width>6.0</width>
+      <point>117 -55 0.01</point>
+      <point>117 -102 0.01</point>
+    </road>
+
+    <!-- Sidewalks for Block 1 -->
+    <!-- North -->
+    <model name="b1_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 49.0</point>
+              <point>114.0 49.0</point>
+              <point>114.0 46.0</point>
+              <point>44.0 46.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 49.0</point>
+              <point>114.0 49.0</point>
+              <point>114.0 46.0</point>
+              <point>44.0 46.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 7.0</point>
+              <point>114.0 7.0</point>
+              <point>114.0 4.0</point>
+              <point>44.0 4.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 7.0</point>
+              <point>114.0 7.0</point>
+              <point>114.0 4.0</point>
+              <point>44.0 4.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 7.0</point>
+              <point>44.0 46.0</point>
+              <point>47.0 46.0</point>
+              <point>47.0 7.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 7.0</point>
+              <point>44.0 46.0</point>
+              <point>47.0 46.0</point>
+              <point>47.0 7.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>111.0 7.0</point>
+              <point>111.0 46.0</point>
+              <point>114.0 46.0</point>
+              <point>114.0 7.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>111.0 7.0</point>
+              <point>111.0 46.0</point>
+              <point>114.0 46.0</point>
+              <point>114.0 7.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sidewalks for Block 2 -->
+    <!-- North -->
+    <model name="b2_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -4.0</point>
+              <point>114.0 -4.0</point>
+              <point>114.0 -7.0</point>
+              <point>44.0 -7.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -4.0</point>
+              <point>114.0 -4.0</point>
+              <point>114.0 -7.0</point>
+              <point>44.0 -7.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -46.0</point>
+              <point>114.0 -46.0</point>
+              <point>114.0 -49.0</point>
+              <point>44.0 -49.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -46.0</point>
+              <point>114.0 -46.0</point>
+              <point>114.0 -49.0</point>
+              <point>44.0 -49.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -7.0</point>
+              <point>47.0 -7.0</point>
+              <point>47.0 -46.0</point>
+              <point>44.0 -46.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -7.0</point>
+              <point>47.0 -7.0</point>
+              <point>47.0 -46.0</point>
+              <point>44.0 -46.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>111.0 -7.0</point>
+              <point>114.0 -7.0</point>
+              <point>114.0 -46.0</point>
+              <point>111.0 -46.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>111.0 -7.0</point>
+              <point>114.0 -7.0</point>
+              <point>114.0 -46.0</point>
+              <point>111.0 -46.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sidewalks for Block 3 -->
+    <!-- North -->
+    <model name="b3_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 49.0</point>
+              <point>36.0 49.0</point>
+              <point>36.0 46.0</point>
+              <point>-2.0 46.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 49.0</point>
+              <point>36.0 49.0</point>
+              <point>36.0 46.0</point>
+              <point>-2.0 46.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 7.0</point>
+              <point>36.0 7.0</point>
+              <point>36.0 4.0</point>
+              <point>-2.0 4.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 7.0</point>
+              <point>36.0 7.0</point>
+              <point>36.0 4.0</point>
+              <point>-2.0 4.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 7.0</point>
+              <point>-2.0 46.0</point>
+              <point>1.0 46.0</point>
+              <point>1.0 7.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 7.0</point>
+              <point>-2.0 46.0</point>
+              <point>1.0 46.0</point>
+              <point>1.0 7.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>33.0 7.0</point>
+              <point>33.0 46.0</point>
+              <point>36.0 46.0</point>
+              <point>36.0 7.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>33.0 7.0</point>
+              <point>33.0 46.0</point>
+              <point>36.0 46.0</point>
+              <point>36.0 7.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- Sidewalks for Block 4 -->
+    <!-- North -->
+    <model name="b4_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -4.0</point>
+              <point>36.0 -4.0</point>
+              <point>36.0 -7.0</point>
+              <point>-2.0 -7.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -4.0</point>
+              <point>36.0 -4.0</point>
+              <point>36.0 -7.0</point>
+              <point>-2.0 -7.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -46.0</point>
+              <point>36.0 -46.0</point>
+              <point>36.0 -49.0</point>
+              <point>-2.0 -49.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -46.0</point>
+              <point>36.0 -46.0</point>
+              <point>36.0 -49.0</point>
+              <point>-2.0 -49.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -7.0</point>
+              <point>1.0 -7.0</point>
+              <point>1.0 -46.0</point>
+              <point>-2.0 -46.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -7.0</point>
+              <point>1.0 -7.0</point>
+              <point>1.0 -46.0</point>
+              <point>-2.0 -46.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>33.0 -7.0</point>
+              <point>36.0 -7.0</point>
+              <point>36.0 -46.0</point>
+              <point>33.0 -46.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>33.0 -7.0</point>
+              <point>36.0 -7.0</point>
+              <point>36.0 -46.0</point>
+              <point>33.0 -46.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- Sidewalks for Block 5 -->
+    <!-- North -->
+    <model name="b5_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 49.0</point>
+              <point>-10.0 49.0</point>
+              <point>-10.0 46.0</point>
+              <point>-34.0 46.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 49.0</point>
+              <point>-10.0 49.0</point>
+              <point>-10.0 46.0</point>
+              <point>-34.0 46.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 7.0</point>
+              <point>-10.0 7.0</point>
+              <point>-10.0 4.0</point>
+              <point>-34.0 4.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 7.0</point>
+              <point>-10.0 7.0</point>
+              <point>-10.0 4.0</point>
+              <point>-34.0 4.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 7.0</point>
+              <point>-34.0 46.0</point>
+              <point>-31.0 46.0</point>
+              <point>-31.0 7.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 7.0</point>
+              <point>-34.0 46.0</point>
+              <point>-31.0 46.0</point>
+              <point>-31.0 7.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-13.0 7.0</point>
+              <point>-13.0 46.0</point>
+              <point>-10.0 46.0</point>
+              <point>-10.0 7.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-13.0 7.0</point>
+              <point>-13.0 46.0</point>
+              <point>-10.0 46.0</point>
+              <point>-10.0 7.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- Sidewalks for Block 6 -->
+    <model name="b6_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 -4.0</point>
+              <point>-10.0 -4.0</point>
+              <point>-10.0 -7.0</point>
+              <point>-34.0 -7.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 -4.0</point>
+              <point>-10.0 -4.0</point>
+              <point>-10.0 -7.0</point>
+              <point>-34.0 -7.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 -46.0</point>
+              <point>-10.0 -46.0</point>
+              <point>-10.0 -49.0</point>
+              <point>-34.0 -49.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 -46.0</point>
+              <point>-10.0 -46.0</point>
+              <point>-10.0 -49.0</point>
+              <point>-34.0 -49.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 -7.0</point>
+              <point>-31.0 -7.0</point>
+              <point>-31.0 -46.0</point>
+              <point>-34.0 -46.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-34.0 -7.0</point>
+              <point>-31.0 -7.0</point>
+              <point>-31.0 -46.0</point>
+              <point>-34.0 -46.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-13.0 -7.0</point>
+              <point>-10.0 -7.0</point>
+              <point>-10.0 -46.0</point>
+              <point>-13.0 -46.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-13.0 -7.0</point>
+              <point>-10.0 -7.0</point>
+              <point>-10.0 -46.0</point>
+              <point>-13.0 -46.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sidewalks for Block 7 (additional) -->
+    <model name="b7_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 49.0</point>
+              <point>-40.0 49.0</point>
+              <point>-40.0 48.5</point>
+              <point>-43.0 48.5</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">       <!-- North -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 49.0</point>
+              <point>-40.0 49.0</point>
+              <point>-40.0 48.5</point>
+              <point>-43.0 48.5</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 4.5</point>
+              <point>-40.0 4.5</point>
+              <point>-40.0 4.0</point>
+              <point>-43.0 4.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">        <!-- South -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 4.5</point>
+              <point>-40.0 4.5</point>
+              <point>-40.0 4.0</point>
+              <point>-43.0 4.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 48.5</point>
+              <point>-42.5 48.5</point>
+              <point>-42.5 4.5</point>
+              <point>-43.0 4.5</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">        <!-- West -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 48.5</point>
+              <point>-42.5 48.5</point>
+              <point>-42.5 4.5</point>
+              <point>-43.0 4.5</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-40.5 48.5</point>
+              <point>-40.0 48.5</point>
+              <point>-40.0 4.5</point>
+              <point>-40.5 4.5</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">        <!-- East -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-40.5 48.5</point>
+              <point>-40.0 48.5</point>
+              <point>-40.0 4.5</point>
+              <point>-40.5 4.5</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- Sidewalks for Block 8 (additional) -->
+    <model name="b8_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 -4.0</point>
+              <point>-40.0 -4.0</point>
+              <point>-40.0 -4.5</point>
+              <point>-43.0 -4.5</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">       <!-- North -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 -4.0</point>
+              <point>-40.0 -4.0</point>
+              <point>-40.0 -4.5</point>
+              <point>-43.0 -4.5</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 -48.5</point>
+              <point>-40.0 -48.5</point>
+              <point>-40.0 -49.0</point>
+              <point>-43.0 -49.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">        <!-- South -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 -48.5</point>
+              <point>-40.0 -48.5</point>
+              <point>-40.0 -49.0</point>
+              <point>-43.0 -49.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 -48.5</point>
+              <point>-42.5 -48.5</point>
+              <point>-42.5 -4.5</point>
+              <point>-43.0 -4.5</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">        <!-- West -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-43.0 -48.5</point>
+              <point>-42.5 -48.5</point>
+              <point>-42.5 -4.5</point>
+              <point>-43.0 -4.5</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-40.5 -48.5</point>
+              <point>-40.0 -48.5</point>
+              <point>-40.0 -4.5</point>
+              <point>-40.5 -4.5</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">        <!-- East -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-40.5 -48.5</point>
+              <point>-40.0 -48.5</point>
+              <point>-40.0 -4.5</point>
+              <point>-40.5 -4.5</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sidewalks for Block 9 -->
+    <model name="b9_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -55.0</point>
+              <point>114.0 -55.0</point>
+              <point>114.0 -58.0</point>
+              <point>44.0 -58.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -55.0</point>
+              <point>114.0 -55.0</point>
+              <point>114.0 -58.0</point>
+              <point>44.0 -58.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -93.0</point>
+              <point>114.0 -93.0</point>
+              <point>114.0 -96.0</point>
+              <point>44.0 -96.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -93.0</point>
+              <point>114.0 -93.0</point>
+              <point>114.0 -96.0</point>
+              <point>44.0 -96.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -58.0</point>
+              <point>47.0 -58.0</point>
+              <point>47.0 -93.0</point>
+              <point>44.0 -93.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>44.0 -58.0</point>
+              <point>47.0 -58.0</point>
+              <point>47.0 -93.0</point>
+              <point>44.0 -93.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>111.0 -58.0</point>
+              <point>114.0 -58.0</point>
+              <point>114.0 -93.0</point>
+              <point>111.0 -93.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>111.0 -58.0</point>
+              <point>114.0 -58.0</point>
+              <point>114.0 -93.0</point>
+              <point>111.0 -93.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sidewalks for Block 10 -->
+    <model name="b10_sidewalks">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -55.0</point>
+              <point>36.0 -55.0</point>
+              <point>36.0 -58.0</point>
+              <point>-2.0 -58.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -55.0</point>
+              <point>36.0 -55.0</point>
+              <point>36.0 -58.0</point>
+              <point>-2.0 -58.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -93.0</point>
+              <point>36.0 -93.0</point>
+              <point>36.0 -96.0</point>
+              <point>-2.0 -96.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -93.0</point>
+              <point>36.0 -93.0</point>
+              <point>36.0 -96.0</point>
+              <point>-2.0 -96.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -58.0</point>
+              <point>1.0 -58.0</point>
+              <point>1.0 -93.0</point>
+              <point>-2.0 -93.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-2.0 -58.0</point>
+              <point>1.0 -58.0</point>
+              <point>1.0 -93.0</point>
+              <point>-2.0 -93.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>33.0 -58.0</point>
+              <point>36.0 -58.0</point>
+              <point>36.0 -93.0</point>
+              <point>33.0 -93.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>33.0 -58.0</point>
+              <point>36.0 -58.0</point>
+              <point>36.0 -93.0</point>
+              <point>33.0 -93.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Contents for Block 1 -->
+    <include>
+      <name>apartment_1</name>
+      <pose>62.5 26.5 0 0 -0 0</pose>
+      <uri>model://apartment</uri>
+    </include>
+
+    <include>
+      <name>apartment_2</name>
+      <pose>93.5 26.5 0 0 -0 0</pose>
+      <uri>model://apartment</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_1</name>
+      <pose>48.5 44.1 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_2</name>
+      <pose>69.0 44.1 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_3</name>
+      <pose>89.0 44.1 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_4</name>
+      <pose>109 44.1 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_5</name>
+      <pose>109 26.5 0 0 -0 -1.57</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_6</name>
+      <pose>109 9.0 0 0 -0 -1.57</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_7</name>
+      <pose>89 9.0 0 0 -0 3.14</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_8</name>
+      <pose>69 9.0 0 0 -0 3.14</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>dumpster_1</name>
+      <pose>48.565986 7.755915 0 0 -0 0</pose>
+      <uri>model://dumpster</uri>
+    </include>
+
+    <include>
+      <name>dumpster_2</name>
+      <pose>51.147600 7.755915 0 0 -0 0</pose>
+      <uri>model://dumpster</uri>
+    </include>
+
+    <include>
+      <name>suv_1</name>
+      <pose>49.793350 18.999519 0 0 0 -2.315011</pose>
+      <uri>model://suv</uri>
+    </include>
+
+    <include>
+      <name>hatchback_blue_1</name>
+      <pose>78.261269 -2.709238 0 0 0 0</pose>
+      <uri>model://hatchback_blue</uri>
+    </include>
+
+    <include>
+      <name>postbox_1</name>
+      <pose>48.554451 12.381654 0 0 0 -1.554094</pose>
+      <uri>model://postbox</uri>
+    </include>
+
+    <include>
+      <name>ranger_xp900_3</name>
+      <pose>81.867900 33.236300 0 0 0 3.14</pose>
+      <uri>model://polaris_ranger_xp900</uri>
+    </include>
+
+    <include>
+      <name>ranger_ev_1</name>
+      <pose>81.867900 36.100900 0 0 0 3.14</pose>
+      <uri>model://polaris_ranger_ev</uri>
+    </include>
+
+    <include>
+      <name>standing_person_1</name>
+      <pose>83.004100 20.372000 0 0 -0 -1.57</pose>
+      <uri>model://person_standing</uri>
+    </include>
+
+    <include>
+      <name>casual_female_2</name>
+      <pose>81.360800 20.630700 0 0 -0 1.57</pose>
+      <uri>model://casual_female</uri>
+    </include>
+
+    <!-- Contents for Block 2 -->
+    <include>
+      <name>osrf_first_office_87</name>
+      <pose>59.579163 -18.513266 0 0 0 3.14</pose>
+      <uri>model://osrf_first_office</uri>
+    </include>
+
+    <model name="parking place_1">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <visual name="bottom_line">
+          <geometry>
+            <polyline>
+              <height>0.001</height> 
+              <point>49.6 -29.6</point>
+              <point>73.2 -29.6</point>
+              <point>73.2 -30.0</point>
+              <point>49.6 -30.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="top_line">
+          <geometry>
+            <polyline>
+              <height>0.001</height> 
+              <point>49.6 -35.0</point>
+              <point>73.2 -35.0</point>
+              <point>73.2 -35.4</point>
+              <point>49.6 -35.4</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_1">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>49.6 -30.0</point>
+              <point>50.0 -30.0</point>
+              <point>50.0 -35.0</point>
+              <point>49.6 -35.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_2">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>52.5 -30.0</point>
+              <point>52.9 -30.0</point>
+              <point>52.9 -35.0</point>
+              <point>52.5 -35.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_3">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>55.4 -30.0</point>
+              <point>55.8 -30.0</point>
+              <point>55.8 -35.0</point>
+              <point>55.4 -35.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_4">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>58.3 -30.0</point>
+              <point>58.7 -30.0</point>
+              <point>58.7 -35.0</point>
+              <point>58.3 -35.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_5">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>61.2 -30.0</point>
+              <point>61.6 -30.0</point>
+              <point>61.6 -35.0</point>
+              <point>61.2 -35.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_6">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>64.1 -30.0</point>
+              <point>64.5 -30.0</point>
+              <point>64.5 -35.0</point>
+              <point>64.1 -35.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_7">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>67.0 -30.0</point>
+              <point>67.4 -30.0</point>
+              <point>67.4 -35.0</point>
+              <point>67.0 -35.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_8">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>69.9 -30.0</point>
+              <point>70.3 -30.0</point>
+              <point>70.3 -35.0</point>
+              <point>69.9 -35.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_9">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>72.8 -30.0</point>
+              <point>73.2 -30.0</point>
+              <point>73.2 -35.0</point>
+              <point>72.8 -35.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="parking place_2">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <visual name="bottom_line">
+          <geometry>
+            <polyline>
+              <height>0.001</height> 
+              <point>49.6 -38.6</point>
+              <point>73.2 -38.6</point>
+              <point>73.2 -39.0</point>
+              <point>49.6 -39.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="top_line">
+          <geometry>
+            <polyline>
+              <height>0.001</height> 
+              <point>49.6 -44.0</point>
+              <point>73.2 -44.0</point>
+              <point>73.2 -44.4</point>
+              <point>49.6 -44.4</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_1">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>49.6 -39.0</point>
+              <point>50.0 -39.0</point>
+              <point>50.0 -44.0</point>
+              <point>49.6 -44.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_2">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>52.5 -39.0</point>
+              <point>52.9 -39.0</point>
+              <point>52.9 -44.0</point>
+              <point>52.5 -44.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_3">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>55.4 -39.0</point>
+              <point>55.8 -39.0</point>
+              <point>55.8 -44.0</point>
+              <point>55.4 -44.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_4">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>58.3 -39.0</point>
+              <point>58.7 -39.0</point>
+              <point>58.7 -44.0</point>
+              <point>58.3 -44.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_5">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>61.2 -39.0</point>
+              <point>61.6 -39.0</point>
+              <point>61.6 -44.0</point>
+              <point>61.2 -44.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_6">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>64.1 -39.0</point>
+              <point>64.5 -39.0</point>
+              <point>64.5 -44.0</point>
+              <point>64.1 -44.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_7">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>67.0 -39.0</point>
+              <point>67.4 -39.0</point>
+              <point>67.4 -44.0</point>
+              <point>67.0 -44.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_8">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>69.9 -39.0</point>
+              <point>70.3 -39.0</point>
+              <point>70.3 -44.0</point>
+              <point>69.9 -44.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+        <visual name="line_9">
+          <geometry>
+            <polyline>
+              <height>0.001</height>
+              <point>72.8 -39.0</point>
+              <point>73.2 -39.0</point>
+              <point>73.2 -44.0</point>
+              <point>72.8 -44.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 1.0 1.0</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <include>
+      <name>hatchback_blue_2</name>
+      <pose>51.25 -32.5 0 0 0 -1.57</pose>
+      <uri>model://hatchback_blue</uri>
+    </include>
+
+    <include>
+      <name>suv_2</name>
+      <pose>59.95 -32.5 0 0 0 -1.57</pose>
+      <uri>model://suv</uri>
+    </include>
+
+    <include>
+      <name>pickup_1</name>
+      <pose>65.75 -32.5 0 0 0 -1.57</pose>
+      <uri>model://pickup</uri>
+    </include>
+
+    <include>
+      <name>hatchback_1</name>
+      <pose>54.15 -41.5 0 0 0 1.57</pose>
+      <uri>model://hatchback</uri>
+    </include>
+
+    <include>
+      <name>hatchback_red_1</name>
+      <pose>59.95 -41.5 0 0 0 1.57</pose>
+      <uri>model://hatchback_red</uri>
+    </include>
+
+    <include>
+      <name>ranger_xp900_1</name>
+      <pose>65.776955 -41.5 0 0 0 1.57</pose>
+      <uri>model://polaris_ranger_xp900</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_1</name>
+      <pose>48.3 -29 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_2</name>
+      <pose>52.3 -29 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_3</name>
+      <pose>56.3 -29 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_4</name>
+      <pose>60.3 -29 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_5</name>
+      <pose>64.3 -29 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_6</name>
+      <pose>68.3 -29 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_7</name>
+      <pose>72.3 -29 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_8</name>
+      <pose>48.3 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_9</name>
+      <pose>52.3 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_10</name>
+      <pose>56.3 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_11</name>
+      <pose>60.3 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_12</name>
+      <pose>64.3 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_13</name>
+      <pose>68.3 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_14</name>
+      <pose>72.3 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_15</name>
+      <pose>48.3 -34 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_16</name>
+      <pose>48.3 -39.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_9</name>
+      <pose>79.8 -12.7 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_10</name>
+      <pose>79.8 -23.7 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>robo_cup_field</name>
+      <pose>96.8057 -27.0013 0 0 0 1.57</pose>
+      <uri>model://robocup_3Dsim_field</uri>
+    </include>
+
+    <include>
+      <name>robo_cup_left_goal</name>
+      <pose>96.8057 -12.0 0 0 0 1.57</pose>
+      <uri>model://robocup_3Dsim_goal</uri>
+    </include>
+
+    <include>
+      <name>robo_cup_right_goal</name>
+      <pose>96.8057 -42.0 0 0 0 -1.57</pose>
+      <uri>model://robocup_3Dsim_goal</uri>
+    </include>
+
+    <include>
+      <name>robo_cup_ball</name>
+      <pose>96.8057 -27.0013 0 0 0 0</pose>
+      <uri>model://robocup_3Dsim_ball</uri>
+    </include>
+    
+    <include>
+      <name>grey_wall_1</name>
+      <pose>88.554199 -9.85 0 0 0 0</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_2</name>
+      <pose>94.888008 -9.85 0 0 0 0</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+   <include>
+      <name>grey_wall_3</name>
+      <pose>99.538269 -9.85 0 0 0 0</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_4</name>
+      <pose>105.047226 -9.85 0 0 0 0</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_5</name>
+      <pose>88.554199 -44.06 0 0 0 0</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_6</name>
+      <pose>94.888008 -44.06 0 0 0 0</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+   <include>
+      <name>grey_wall_7</name>
+      <pose>99.538269 -44.06 0 0 0 0</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_8</name>
+      <pose>105.047226 -44.06 0 0 0 0</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_9</name>
+      <pose>84.902466 -13.675049 0 0 0 1.57</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_10</name>
+      <pose>84.902466 -21.171300 0 0 0 1.57</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+   <include>
+      <name>grey_wall_11</name>
+      <pose>84.902466 -28.636967 0 0 0 1.57</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_12</name>
+      <pose>84.902466 -40.209473 0 0 0 1.57</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_13</name>
+      <pose>108.697726 -13.675049 0 0 0 1.57</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_14</name>
+      <pose>108.697726 -21.171300 0 0 0 1.57</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+   <include>
+      <name>grey_wall_15</name>
+      <pose>108.697726 -28.636967 0 0 0 1.57</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_16</name>
+      <pose>108.697726 -34.0 0 0 0 1.57</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>grey_wall_17</name>
+      <pose>108.697726 -40.209473 0 0 0 1.57</pose>
+      <uri>model://grey_wall</uri>
+    </include>
+
+    <include>
+      <name>walking_person_2</name>
+      <pose>82.611816 -33.626904 0 0 -0 1.57</pose>
+      <uri>model://person_walking</uri>
+    </include>
+
+    <include>
+      <name>casual_female_1</name>
+      <pose>76.623344 -38.967117 0 0 -0 3.14</pose>
+      <uri>model://casual_female</uri>
+    </include>
+    
+    <!-- Contents for Block 3 -->
+    <include>
+      <name>house_1_1</name>
+      <pose>10.5913 14.1638 0 0 0 0</pose>
+      <uri>model://house_1</uri>
+    </include>
+
+    <include>
+      <name>house_1_2</name>
+      <pose>8.725269 33.707298 0 0 0 1.57</pose>
+      <uri>model://house_1</uri>
+    </include>
+
+    <include>
+      <name>house_2_1</name>
+      <pose>24.294098 37.000740 0 0 0 0</pose>
+      <uri>model://house_2</uri>
+    </include>
+
+    <include>
+      <name>law_office_1</name>
+      <pose>29.859610 16.252680 0 0 0 1.57</pose>
+      <uri>model://law_office</uri>
+    </include>
+
+    <include>
+      <name>salon_1</name>
+      <pose>29.199024 9.911995 0 0 0 0</pose>
+      <uri>model://salon</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_17</name>
+      <pose>2.12 7.88 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_18</name>
+      <pose>2.12 23.01 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_19</name>
+      <pose>2.12 32.89 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_20</name>
+      <pose>2.12 44.60 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_21</name>
+      <pose>9.83 44.60 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_22</name>
+      <pose>17.50 44.60 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_23</name>
+      <pose>25.20 44.60 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_24</name>
+      <pose>32.90 44.60 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_11</name>
+      <pose>22.4847 24.680 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>hatchback_2</name>
+      <pose>29.538622 29.954578 0 0 0 0</pose>
+      <uri>model://hatchback</uri>
+    </include>
+
+    <include>
+      <name>suv_3</name>
+      <pose>20.143406 13.473736 0 0 0 -1.57</pose>
+      <uri>model://suv</uri>
+    </include>
+
+    <include>
+      <name>mailbox_1</name>
+      <pose>1.714929 9.384067 0 0 0 3.14</pose>
+      <uri>model://mailbox</uri>
+    </include>
+
+    <!-- Contents for Block 4 -->
+    <include>
+      <name>school_1</name>
+      <pose>25.671320 -25.466795 0 0 0 -1.57</pose>
+      <uri>model://school</uri>
+    </include>
+
+    <include>
+      <name>playground_1</name>
+      <pose>9.593306 -38.814262 0 0 0 -1.57</pose>
+      <uri>model://playground</uri>
+    </include>
+
+    <include>
+      <name>pickup_2</name>
+      <pose>10.53 -11.46 0 0 0 0</pose>
+      <uri>model://pickup</uri>
+    </include>
+
+    <include>
+      <name>hatchback_red_2</name>
+      <pose>10.30 -14.26 0 0 0 0</pose>
+      <uri>model://hatchback_red</uri>
+    </include>
+
+    <include>
+      <name>dumpster_3</name>
+      <pose>1.745949 -8.493927 0 0 -0 -1.57</pose>
+      <uri>model://dumpster</uri>
+    </include>
+
+    <include>
+      <name>dumpster_4</name>
+      <pose>1.762960 -11.079700 0 0 -0 -1.57</pose>
+      <uri>model://dumpster</uri>
+    </include>
+
+    <include>
+      <name>walking_person_1</name>
+      <pose>15.123966 -23.936207 0 0 -0 1.252842</pose>
+      <uri>model://person_walking</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_12</name>
+      <pose>3.434 -18.554 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_13</name>
+      <pose>3.434 -31.046 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_14</name>
+      <pose>3.434 -43.005 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_25</name>
+      <pose>17.381200 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_26</name>
+      <pose>23.451400 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_27</name>
+      <pose>29.501300 -44.6 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <!-- <include>
+      <name>bus_1</name>
+      <pose>-3.475090 -26.485104 0 0 0 -3.14</pose>
+      <uri>model://bus</uri>
+    </include> -->
+
+    <!-- Contents for Block 5 -->
+    <include>
+      <name>fast_food_1</name>
+      <pose>-20.882181 18.278934 0 0 0 -1.57</pose>
+      <uri>model://fast_food</uri>
+    </include>
+
+    <include>
+      <name>dumpster_5</name>
+      <pose>-21.201227 30.540712 0 0 -0 1.57</pose>
+      <uri>model://dumpster</uri>
+    </include>
+
+    <include>
+      <name>house_2_2</name>
+      <pose>-20.544000 39.844300 0 0 0 0</pose>
+      <uri>model://house_2</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_15</name>
+      <pose>-29.0 31.1919 0 0 -0 1.57</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_16</name>
+      <pose>-29.0 44.296398 0 0 -0 1.57</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+    
+    <include>
+      <name>pine_tree_28</name>
+      <pose>-13.9 8.812060 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_29</name>
+      <pose>-13.9 13.467100 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_30</name>
+      <pose>-13.9 23.399400 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_31</name>
+      <pose>-28.639000 8.812060 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <!-- Contents for Block 6 -->
+    <include>
+      <name>fire_station_1</name>
+      <pose>-25.551744 -17.258720 0 0 0 -1.57</pose>
+      <uri>model://fire_station</uri>
+    </include>
+
+    <include>
+      <name>fire_truck_1</name>
+      <pose>-15.486572 -16.472553 0 0 0 0.153451</pose>
+      <uri>model://fire_truck</uri>
+    </include>
+
+    <include>
+      <name>post_office_1</name>
+      <pose>-17.810732 -40.344494 0 0 0 -1.57</pose>
+      <uri>model://post_office</uri>
+    </include>
+
+    <include>
+      <name>thrift_shop_1</name>
+      <pose>-25.906130 -42.743660 0 0 0 0</pose>
+      <uri>model://thrift_shop</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_32</name>
+      <pose>-23.822287 -37.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_33</name>
+      <pose>-23.822287 -34.0 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_34</name>
+      <pose>-23.822287 -30.05 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+        <include>
+      <name>pine_tree_35</name>
+      <pose>-28.418791 -37.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_36</name>
+      <pose>-28.418791 -34.0 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_37</name>
+      <pose>-28.418791 -30.05 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>truss_bridge_1</name>
+      <pose>-56.732208 0 -0.29 0 0 1.57</pose>
+      <uri>model://truss_bridge</uri>
+    </include>
+
+    <include>
+      <name>truss_bridge_2</name>
+      <pose>-56.732208 -45 -0.29 0 0 1.57</pose>
+      <uri>model://truss_bridge</uri>
+    </include>
+
+    <!-- Contents for Block 7 -->
+    <include>
+      <name>pine_tree_38</name>
+      <pose>-41.5 8.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_39</name>
+      <pose>-41.5 17.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_40</name>
+      <pose>-41.5 26.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_41</name>
+      <pose>-41.5 35.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_42</name>
+      <pose>-41.5 44.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <!-- Contents for Block 8 -->
+    <include>
+      <name>pine_tree_43</name>
+      <pose>-41.5 -8.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_44</name>
+      <pose>-41.5 -17.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_45</name>
+      <pose>-41.5 -26.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_46</name>
+      <pose>-41.5 -35.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_47</name>
+      <pose>-41.5 -44.5 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>gas_station_1</name>
+      <pose>-75.290604 -14.453625 0 0 0 0</pose>
+      <uri>model://gas_station</uri>
+    </include>
+
+    <road name="sandy_path_2">
+      <width>22</width>
+      <point>-75 -5 0.01</point>
+      <point>-75 -40 0.01</point>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Trunk</name>
+        </script>
+      </material>
+    </road>
+
+    <!-- Traffic signs -->
+    <include>
+      <name>stop_light_post_1</name>
+      <pose>-40 3.9 0 0 0 1.57</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_2</name>
+      <pose>-39.9 -4.0 0 0 0 -3.14</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_3</name>
+      <pose>-34 -3.9 0 0 0 -1.57</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_4</name>
+      <pose>-34.1 4.0 0 0 0 0</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_5</name>
+      <pose>-10 3.9 0 0 0 1.57</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_6</name>
+      <pose>-9.9 -4.0 0 0 0 -3.14</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_7</name>
+      <pose>-2 -3.9 0 0 0 -1.57</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_8</name>
+      <pose>-2.1 4.0 0 0 0 0</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_9</name>
+      <pose>36 3.9 0 0 0 1.57</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_10</name>
+      <pose>36.1 -4.0 0 0 0 -3.14</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_11</name>
+      <pose>44 -3.9 0 0 0 -1.57</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <include>
+      <name>stop_light_post_12</name>
+      <pose>43.9 4.0 0 0 0 0</pose>
+      <uri>model://stop_light_post</uri>
+    </include>
+
+    <!-- Telephone poles -->
+    <include>
+      <name>telephone_pole_1</name>
+      <pose>-26 4.0 0 0 0 1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_2</name>
+      <pose>-18 4.0 0 0 0 1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_3</name>
+      <pose>-26 -4.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_4</name>
+      <pose>-18 -4.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_5</name>
+      <pose>-10 19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_6</name>
+      <pose>-10 34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_7</name>
+      <pose>-10 -19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_8</name>
+      <pose>-10 -34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_9</name>
+      <pose>-2 19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_10</name>
+      <pose>-2 34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_11</name>
+      <pose>-2 -19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_12</name>
+      <pose>-2 -34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_13</name>
+      <pose>11 4.0 0 0 0 1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_14</name>
+      <pose>24 4.0 0 0 0 1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_15</name>
+      <pose>11 -4.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_16</name>
+      <pose>24 -4.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_17</name>
+      <pose>36 19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_18</name>
+      <pose>36 34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_19</name>
+      <pose>36 -19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_20</name>
+      <pose>36 -34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_21</name>
+      <pose>44 19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_22</name>
+      <pose>44 34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_23</name>
+      <pose>44 -19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_24</name>
+      <pose>44 -34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_25</name>
+      <pose>67 4.0 0 0 0 1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_26</name>
+      <pose>90 4.0 0 0 0 1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_27</name>
+      <pose>67 -4.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_28</name>
+      <pose>90 -4.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_29</name>
+      <pose>114 19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_30</name>
+      <pose>114 34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_31</name>
+      <pose>114 -19 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_32</name>
+      <pose>114 -34 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <!-- Lamp post -->
+    <include>
+      <name>lamp_post_1</name>
+      <pose>-29.2 4 0 0 0 0</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_2</name>
+      <pose>-19.6 4 0 0 0 0</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_3</name>
+      <pose>-24.4 -4 0 0 0 -3.14</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_4</name>
+      <pose>-14.8 -4 0 0 0 -3.14</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_5</name>
+      <pose>5.6 4 0 0 0 0</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_6</name>
+      <pose>20.8 4 0 0 0 0</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_7</name>
+      <pose>13.2 -4 0 0 0 -3.14</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_8</name>
+      <pose>28.4 -4 0 0 0 -3.14</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_9</name>
+      <pose>58 4 0 0 0 0</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_10</name>
+      <pose>86 4 0 0 0 0</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_11</name>
+      <pose>72 -4 0 0 0 -3.14</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <include>
+      <name>lamp_post_12</name>
+      <pose>100 -4 0 0 0 -3.14</pose>
+      <uri>model://lamp_post</uri>
+    </include>
+
+    <!-- Autos on the streets -->
+    <include>
+      <name>hatchback_blue_3</name>
+      <pose>-8.266530 28.989300 0 0 0 -1.57</pose>
+      <uri>model://hatchback_blue</uri>
+    </include>
+
+    <include>
+      <name>pickup_3</name>
+      <pose>-3.942709 16.136499 0 0 0 1.57</pose>
+      <uri>model://pickup</uri>
+    </include>
+
+    <include>
+      <name>hatchback_red_3</name>
+      <pose>37.920338 3.969024 0 0 0 -1.933241</pose>
+      <uri>model://hatchback_red</uri>
+    </include>
+
+    <include>
+      <name>ranger_xp900_2</name>
+      <pose>42.525864 37.681564 0 0 0 1.570000</pose>
+      <uri>model://polaris_ranger_xp900</uri>
+    </include>
+
+    <include>
+      <name>suv_4</name>
+      <pose>63.358952 2.244759 0 0 0 -3.14</pose>
+      <uri>model://suv</uri>
+    </include>
+
+    <include>
+      <name>bus_2</name>
+      <pose>100.147720 2.129078 0 0 0 -1.57</pose>
+      <uri>model://bus</uri>
+    </include>
+
+    <!-- Contents for Block 9 -->
+    <!-- Construction zone -->
+    <include>
+      <name>tower_crane_1</name>
+      <pose>96.862068 -62.055328 0 0 0 -1.312194</pose>
+      <uri>model://tower_crane</uri>
+    </include>
+
+    <include>
+      <name>tower_crane_2</name>
+      <pose>104.560043 -86.665894 0 0 0 -1.516862</pose>
+      <uri>model://tower_crane</uri>
+    </include>
+
+    <include>
+      <name>collapsed_industrial_1</name>
+      <pose>60.718900 -70.826700 0 0 0 0</pose>
+      <uri>model://collapsed_industrial</uri>
+    </include>
+
+    <include>
+      <name>collapsed_police_station_1</name>
+      <pose>83.290352 -74.760292 0 0 0 -0.333982</pose>
+      <uri>model://collapsed_police_station</uri>
+    </include>
+
+    <include>
+      <name>drc_practice_angled_barrier_45_1</name>
+      <pose>93.012300 -57.015000 0 0 0 0</pose>
+      <uri>model://drc_practice_angled_barrier_45</uri>
+    </include>
+
+    <include>
+      <name>drc_practice_angled_barrier_135_1</name>
+      <pose>101.819000 -92.206800 0 0 0 0</pose>
+      <uri>model://drc_practice_angled_barrier_135</uri>
+    </include>
+
+    <include>
+      <name>drc_practice_orange_jersey_barrier_1</name>
+      <pose>91.278700 -57.554200 0 0 0 0</pose>
+      <uri>model://drc_practice_orange_jersey_barrier</uri>
+    </include>
+
+    <include>
+      <name>drc_practice_orange_jersey_barrier_2</name>
+      <pose>100.241000 -91.484700 0 0 0 0</pose>
+      <uri>model://drc_practice_orange_jersey_barrier</uri>
+    </include>
+
+    <include>
+      <name>construction_cone_1</name>
+      <pose>62.065380 -56.947060 0.15 0 0 0</pose>
+      <uri>model://construction_cone</uri>
+    </include>
+
+    <include>
+      <name>construction_cone_2</name>
+      <pose>58.471645 -58.780033 0 0 0 0</pose>
+      <uri>model://construction_cone</uri>
+    </include>
+
+    <include>
+      <name>construction_cone_3</name>
+      <pose>54.426022 -59.736317 0 0 0 0</pose>
+      <uri>model://construction_cone</uri>
+    </include>
+
+    <include>
+      <name>construction_cone_4</name>
+      <pose>50.579506 -60.636166 0 0 0 0</pose>
+      <uri>model://construction_cone</uri>
+    </include>
+
+    <include>
+      <name>construction_cone_5</name>
+      <pose>48.757179 -64.255859 0 0 0 0</pose>
+      <uri>model://construction_cone</uri>
+    </include>
+
+    <include>
+      <name>construction_cone_6</name>
+      <pose>46.434400 -66.812100 0.15 0 0 0</pose>
+      <uri>model://construction_cone</uri>
+    </include>
+
+    <include>
+      <name>construction_cone_7</name>
+      <pose>45.482700 -68.082200 0.15 0 0 0</pose>
+      <uri>model://construction_cone</uri>
+    </include>
+
+    <!-- Contents for Block 10 -->
+    <include>
+      <name>radio_tower_1</name>
+      <pose>8.042826 -79.850006 0 0 0 0</pose>
+      <uri>model://radio_tower</uri>
+    </include>
+
+    <include>
+      <name>police_station_1</name>
+      <pose>25.857740 -68.411621 0 0 0 0</pose>
+      <uri>model://police_station</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_24</name>
+      <pose>25.516100 -85.349600 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_25</name>
+      <pose>12.729500 -67.615300 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_26</name>
+      <pose>5.729860 -60.157100 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>hatchback_3</name>
+      <pose>15.182000 -62.534600 0 0 0 1.57</pose>
+      <uri>model://hatchback</uri>
+    </include>
+    
+    <!-- Powerplant -->
+    <!-- <model name="powerplant"> -->
+      <!-- <static>true</static>
+      <pose>13.184770 -128.635925 0.01 0 0 -3.14</pose>
+      <link name="link"> -->
+        <!-- <pose>12.3 -133.7 0.01 0 0 0</pose> -->
+        <!-- <collision name="wall1">
+          <geometry>
+            <mesh>
+              <uri>model://powerplant/meshes/powerplant.dae</uri>
+              <scale>0.8 0.8 0.8</scale>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name="visual1">
+          <geometry>
+            <mesh>
+              <uri>model://powerplant/meshes/powerplant.dae</uri>
+              <scale>0.8 0.8 0.8</scale>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model> -->
+
+    <model name="reactor_1">
+    <static>true</static>
+    <pose>-33.524952 -138.277725 0 0 0 0</pose>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://reactor/meshes/reactor.dae</uri>
+            <scale>0.8 0.8 0.8</scale>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://reactor/meshes/reactor.dae</uri>
+            <scale>0.8 0.8 0.8</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    </model>
+
+    <model name="reactor_2">
+    <static>true</static>
+    <pose>-33.524952 -112.384171 0 0 0 0</pose>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://reactor/meshes/reactor.dae</uri>
+            <scale>0.8 0.8 0.8</scale>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://reactor/meshes/reactor.dae</uri>
+            <scale>0.8 0.8 0.8</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    </model>
+
+    <road name="sandy_path">
+      <width>58</width>
+      <point>-30.5 -131 0.01</point>
+      <point>54.5 -131 0.01</point>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Grass</name>
+        </script>
+      </material>
+    </road>
+
+    <road name="residence_2_powerplant_1">
+      <width>8</width>
+      <point>-6 -55 0.01</point>
+      <point>-6 -99 0.01</point>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Residential</name>
+        </script>
+      </material>
+    </road>
+
+    <road name="residence_2_powerplant_2">
+      <width>8</width>
+      <point>40 -55 0.01</point>
+      <point>40 -99 0.01</point>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Residential</name>
+        </script>
+      </material>
+    </road>
+
+    <include>
+      <name>telephone_pole_33</name>
+      <pose>-10 -68.6 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_34</name>
+      <pose>-10 -85.2 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_35</name>
+      <pose>-2 -68.6 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_36</name>
+      <pose>-2 -85.2 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_37</name>
+      <pose>36 -68.6 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_38</name>
+      <pose>36 -85.2 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_39</name>
+      <pose>44 -68.6 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_40</name>
+      <pose>44 -85.2 0 0 0 0</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_41</name>
+      <pose>67 -49.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_42</name>
+      <pose>90 -49.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_43</name>
+      <pose>67 -55.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_44</name>
+      <pose>90 -55.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_45</name>
+      <pose>11 -49.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_46</name>
+      <pose>24 -49.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_47</name>
+      <pose>11 -55.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <include>
+      <name>telephone_pole_48</name>
+      <pose>24 -55.0 0 0 0 -1.57</pose>
+      <uri>model://telephone_pole</uri>
+    </include>
+
+    <!-- Garden -->
+    <!-- Sidewalks for Garden -->
+    <model name="garden_sidewalks">
+      <static>true</static>
+      <pose>50 84 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-25.0 15.0</point>
+              <point>25.0 15.0</point>
+              <point>25.0 10.0</point>
+              <point>-25.0 10.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">       <!-- North -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-25.0 15.0</point>
+              <point>25.0 15.0</point>
+              <point>25.0 10.0</point>
+              <point>-25.0 10.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Runway</name>
+            </script>
+            <!-- <ambient>0.2 0.2 0.2 1.0</ambient> -->
+          </material>
+        </visual>
+        <collision name="collision_south">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-25.0 -10.0</point>
+              <point>25.0 -10.0</point>
+              <point>25.0 -15.0</point>
+              <point>-25.0 -15.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_south">        <!-- South -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-25.0 -10.0</point>
+              <point>25.0 -10.0</point>
+              <point>25.0 -15.0</point>
+              <point>-25.0 -15.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Runway</name>
+            </script>
+            <!-- <ambient>0.2 0.2 0.2 1.0</ambient> -->
+          </material>
+        </visual>
+        <collision name="collision_west">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-25.0 15.0</point>
+              <point>-28.882 14.488</point>
+              <point>-32.5 12.99</point>
+              <point>-35.606 10.606</point>
+              <point>-37.99 7.5</point>
+              <point>-39.488 3.882</point>
+              <point>-40.0 0.0</point>
+              <point>-39.488 -3.882</point>
+              <point>-37.99 -7.5</point>
+              <point>-35.606 -10.606</point>
+              <point>-32.5 -12.99</point>
+              <point>-28.882 -14.488</point>
+              <point>-25.0 -15.0</point>
+
+              <point>-25.0 -10.0</point>
+              <point>-27.588 -9.65</point>
+              <point>-30.0 -8.66</point>
+              <point>-32.07 -7.07</point>
+              <point>-33.66 -5.0</point>
+              <point>-34.659 -2.588</point>
+              <point>-35.0 0.0</point>
+              <point>-34.659 2.588</point>
+              <point>-33.66 5.0</point>
+              <point>-32.07 7.07</point>
+              <point>-30.0 8.66</point>
+              <point>-27.588 9.65</point>
+              <point>-25.0 10.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_west">        <!-- West -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-25.0 15.0</point>
+              <point>-28.882 14.488</point>
+              <point>-32.5 12.99</point>
+              <point>-35.606 10.606</point>
+              <point>-37.99 7.5</point>
+              <point>-39.488 3.882</point>
+              <point>-40.0 0.0</point>
+              <point>-39.488 -3.882</point>
+              <point>-37.99 -7.5</point>
+              <point>-35.606 -10.606</point>
+              <point>-32.5 -12.99</point>
+              <point>-28.882 -14.488</point>
+              <point>-25.0 -15.0</point>
+
+              <point>-25.0 -10.0</point>
+              <point>-27.588 -9.65</point>
+              <point>-30.0 -8.66</point>
+              <point>-32.07 -7.07</point>
+              <point>-33.66 -5.0</point>
+              <point>-34.659 -2.588</point>
+              <point>-35.0 0.0</point>
+              <point>-34.659 2.588</point>
+              <point>-33.66 5.0</point>
+              <point>-32.07 7.07</point>
+              <point>-30.0 8.66</point>
+              <point>-27.588 9.65</point>
+              <point>-25.0 10.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Runway</name>
+            </script>
+            <!-- <ambient>0.2 0.2 0.2 1.0</ambient> -->
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>25.0 15.0</point>
+              <point>28.882 14.488</point>
+              <point>32.5 12.99</point>
+              <point>35.606 10.606</point>
+              <point>37.99 7.5</point>
+              <point>39.488 3.882</point>
+              <point>40.0 0.0</point>
+              <point>39.488 -3.882</point>
+              <point>37.99 -7.5</point>
+              <point>35.606 -10.606</point>
+              <point>32.5 -12.99</point>
+              <point>28.882 -14.488</point>
+              <point>25.0 -15.0</point>
+
+              <point>25.0 -10.0</point>
+              <point>27.588 -9.65</point>
+              <point>30.0 -8.66</point>
+              <point>32.07 -7.07</point>
+              <point>33.66 -5.0</point>
+              <point>34.659 -2.588</point>
+              <point>35.0 0.0</point>
+              <point>34.659 2.588</point>
+              <point>33.66 5.0</point>
+              <point>32.07 7.07</point>
+              <point>30.0 8.66</point>
+              <point>27.588 9.65</point>
+              <point>25.0 10.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">        <!-- West -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>25.0 15.0</point>
+              <point>28.882 14.488</point>
+              <point>32.5 12.99</point>
+              <point>35.606 10.606</point>
+              <point>37.99 7.5</point>
+              <point>39.488 3.882</point>
+              <point>40.0 0.0</point>
+              <point>39.488 -3.882</point>
+              <point>37.99 -7.5</point>
+              <point>35.606 -10.606</point>
+              <point>32.5 -12.99</point>
+              <point>28.882 -14.488</point>
+              <point>25.0 -15.0</point>
+
+              <point>25.0 -10.0</point>
+              <point>27.588 -9.65</point>
+              <point>30.0 -8.66</point>
+              <point>32.07 -7.07</point>
+              <point>33.66 -5.0</point>
+              <point>34.659 -2.588</point>
+              <point>35.0 0.0</point>
+              <point>34.659 2.588</point>
+              <point>33.66 5.0</point>
+              <point>32.07 7.07</point>
+              <point>30.0 8.66</point>
+              <point>27.588 9.65</point>
+              <point>25.0 10.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Runway</name>
+            </script>
+           <!--  <ambient>0.2 0.2 0.2 1.0</ambient> -->
+          </material>
+        </visual>
+        <collision name="collision_inter">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-20.32 -10.0</point>
+              <point>-3.0 0.0</point>
+              <point>-3.0 10.0</point>
+              <point>3.0 10.0</point>
+              <point>3.0 0.0</point>
+              <point>20.32 -10.0</point>
+              <point>10.32 -10.0</point>
+              <point>0.0 -4.04</point>
+              <point>-10.32 -10.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_inter">        <!-- Intersection -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-20.32 -10.0</point>
+              <point>-3.0 0.0</point>
+              <point>-3.0 10.0</point>
+              <point>3.0 10.0</point>
+              <point>3.0 0.0</point>
+              <point>20.32 -10.0</point>
+              <point>10.32 -10.0</point>
+              <point>0.0 -4.04</point>
+              <point>-10.32 -10.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Runway</name>
+            </script>
+            <!-- <ambient>0.2 0.2 0.2 1.0</ambient> -->
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- <include>
+      <name>gazebo_1</name>
+      <pose>25 84 0 0 0 0</pose>
+      <uri>model://gazebo</uri>
+    </include>
+
+    <include>
+      <name>gazebo_2</name>
+      <pose>75 84 0 0 0 0</pose>
+      <uri>model://gazebo</uri>
+    </include> -->
+
+    <include>
+      <name>oak_tree_17</name>
+      <pose>25 92 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_18</name>
+      <pose>25 76 0 0 -0 3.14</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_19</name>
+      <pose>17 84 0 0 -0 1.57</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_20</name>
+      <pose>75 92 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_21</name>
+      <pose>75 76 0 0 -0 -3.14</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_22</name>
+      <pose>83 84 0 0 -0 -1.57</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <population name="garden_pin_trees_left">
+      <model name="garden_pin_tree_left">
+        <include>
+          <uri>model://pine_tree</uri>
+        </include>
+      </model>
+      <pose>42 89 0 0 0 0</pose>
+      <distribution>
+        <type>grid</type>
+        <rows>3</rows>
+        <cols>3</cols>
+        <step>4 3 0</step>
+      </distribution>
+    </population>
+
+    <include>
+      <name>pine_tree_48</name>
+      <pose>40.925900 82.796100 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_49</name>
+      <pose>36.663000 80.494800 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_50</name>
+      <pose>32.404900 78.153200 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <population name="garden_pin_trees_right">
+      <model name="garden_pin_tree_right">
+        <include>
+          <uri>model://pine_tree</uri>
+        </include>
+      </model>
+      <pose>58 89 0 0 0 0</pose>
+      <distribution>
+        <type>grid</type>
+        <rows>3</rows>
+        <cols>3</cols>
+        <step>4 3 0</step>
+      </distribution>
+    </population>
+
+    <include>
+      <name>pine_tree_51</name>
+      <pose>59.075 82.796100 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_52</name>
+      <pose>63.337 80.494800 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>pine_tree_53</name>
+      <pose>67.5951 78.153200 0 0 0 0</pose>
+      <uri>model://pine_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_23</name>
+      <pose>50 76.04 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <!-- Sidewalks for City -->
+    <model name="city_sidewalks">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision_north">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-49.0 55.0</point>
+              <point>-49.0 59.0</point>
+              <point>124.0 59.0</point>
+              <point>124.0 55.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_north">       <!-- North -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>-49.0 55.0</point>
+              <point>-49.0 59.0</point>
+              <point>124.0 59.0</point>
+              <point>124.0 55.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_east">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>120.0 55.0</point>
+              <point>124.0 55.0</point>
+              <point>124.0 -102.0</point>
+              <point>120.0 -102.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_east">        <!-- South -->
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>120.0 55.0</point>
+              <point>124.0 55.0</point>
+              <point>124.0 -102.0</point>
+              <point>120.0 -102.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1.0</ambient>
+          </material>
+        </visual>
+        <collision name="collision_city2garden_1">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>25.0 59.0</point>
+              <point>25.0 69.0</point>
+              <point>30.0 69.0</point>
+              <point>30.0 59.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_city2garden_1">        
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>25.0 59.0</point>
+              <point>25.0 69.0</point>
+              <point>30.0 69.0</point>
+              <point>30.0 59.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Runway</name>
+            </script>
+            <!-- <ambient>0.2 0.2 0.2 1.0</ambient> -->
+          </material>
+        </visual>
+        <collision name="collision_city2garden_2">
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>70.0 59.0</point>
+              <point>70.0 69.0</point>
+              <point>75.0 69.0</point>
+              <point>75.0 59.0</point>
+            </polyline>
+          </geometry>
+        </collision>
+        <visual name="visual_city2garden_2">       
+          <geometry>
+            <polyline>
+              <height>0.15</height>
+              <point>70.0 59.0</point>
+              <point>70.0 69.0</point>
+              <point>75.0 69.0</point>
+              <point>75.0 59.0</point>
+            </polyline>
+          </geometry>
+          <material>
+            <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Runway</name>
+            </script>
+            <!-- <ambient>0.2 0.2 0.2 1.0</ambient> -->
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- Tree Population-->
+    <population name="tree_population_1">
+      <model name="tree_0">
+        <include>
+          <uri>model://oak_tree</uri>
+        </include>
+      </model>
+      <pose>-16 79 0 0 0 0</pose>
+      <box>
+        <size>48 42 0.01</size>
+      </box>
+      <model_count>20</model_count>
+      <distribution>
+        <type>uniform</type>
+      </distribution>
+    </population>
+
+    <population name="tree_population_2">
+      <model name="tree_1">
+        <include>
+          <uri>model://pine_tree</uri>
+        </include>
+      </model>
+      <pose>50 64 0 0 0 0</pose>
+      <box>
+        <size>40 10 0.01</size>
+      </box>
+      <model_count>12</model_count>
+      <distribution>
+        <type>uniform</type>
+      </distribution>
+    </population>
+
+    <population name="tree_population_3">
+      <model name="tree_2">
+        <include>
+          <uri>model://oak_tree</uri>
+        </include>
+      </model>
+      <pose>112 79 0 0 0 0</pose>
+      <box>
+        <size>40 42 0.01</size>
+      </box>
+      <model_count>20</model_count>
+      <distribution>
+        <type>uniform</type>
+      </distribution>
+    </population>
+
+    <include>
+      <name>oak_tree_27</name>
+      <pose>15.044500 63.698500 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+    <include>
+      <name>oak_tree_28</name>
+      <pose>82.870800 63.525800 0 0 -0 0</pose>
+      <uri>model://oak_tree</uri>
+    </include>
+
+
+    <!-- Actors --> 
+    <actor name="walking_1">
+      <pose>25 -110 0.15 0 0 -1.57</pose>
+      <skin>
+        <filename>model://actor/meshes/SKIN_man_red_shirt.dae</filename>
+      </skin>
+      <animation name="walking">
+        <filename>model://actor/meshes/ANIMATION_walking.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <trajectory id="0" type="walking">   
+          <waypoint>
+            <time>0</time>
+            <pose>27.5 69 0.15 0 0 -1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>7.803741030850821</time>
+            <pose>27.5 59 0.15 0 0 -1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>8.584115133935903</time>
+            <pose>27.5 59 0.15 0 0 1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>15.607482061701642</time>
+            <pose>27.5 69 0.15 0 0 1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>16.387856164786726</time>
+            <pose>27.5 69 0.15 0 0 -1.57</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+      <!-- Actor plugin -->
+      <!-- Enable collisions -->
+      <plugin name="actor_collisions_plugin" filename="libCollisionActorPlugin.so">
+        <scaling collision="LHipJoint_LeftUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftUpLeg_LeftLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftLeg_LeftFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftFoot_LeftToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="RHipJoint_RightUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightUpLeg_RightLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightLeg_RightFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightFoot_RightToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="LowerBack_Spine_collision" scale="12.0 20.0 5.0" pose="0.05 0 0 0 -0.2 0"/>
+        <scaling collision="Spine_Spine1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck_Neck1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck1_Head_collision" scale="5.0 5.0 3.0"/>
+        <scaling collision="LeftShoulder_LeftArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftArm_LeftForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftForeArm_LeftHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="4.0 4.0 3.0"/>
+        <scaling collision="RightShoulder_RightArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightArm_RightForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightForeArm_RightHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="4.0 4.0 3.0"/>
+      </plugin>
+    </actor>
+
+    <actor name="walking_2">
+      <pose>-30 5.5 0.15 0 0 0</pose>
+      <skin>
+        <filename>model://actor/meshes/SKIN_man_blue_shirt.dae</filename>
+      </skin>
+      <animation name="walking">
+        <filename>model://actor/meshes/ANIMATION_walking.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <trajectory id="0" type="walking">   
+          <waypoint>
+            <time>0</time>
+            <pose>-30 5.5 0.15 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>7.803741030850821</time>
+            <pose>-20 5.5 0.15 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>8.584115133935903</time>
+            <pose>-20 5.5 0.15 0 0 3.14</pose>
+          </waypoint>
+          <waypoint>
+            <time>15.607482061701642</time>
+            <pose>-30 5.5 0.15 0 0 3.14</pose>
+          </waypoint>
+          <waypoint>
+            <time>16.387856164786726</time>
+            <pose>-30 5.5 0.15 0 0 0</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+      <!-- Actor plugin -->
+      <!-- Enable collisions -->
+      <plugin name="actor_collisions_plugin" filename="libCollisionActorPlugin.so">
+        <scaling collision="LHipJoint_LeftUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftUpLeg_LeftLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftLeg_LeftFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftFoot_LeftToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="RHipJoint_RightUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightUpLeg_RightLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightLeg_RightFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightFoot_RightToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="LowerBack_Spine_collision" scale="12.0 20.0 5.0" pose="0.05 0 0 0 -0.2 0"/>
+        <scaling collision="Spine_Spine1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck_Neck1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck1_Head_collision" scale="5.0 5.0 3.0"/>
+        <scaling collision="LeftShoulder_LeftArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftArm_LeftForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftForeArm_LeftHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="4.0 4.0 3.0"/>
+        <scaling collision="RightShoulder_RightArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightArm_RightForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightForeArm_RightHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="4.0 4.0 3.0"/>
+      </plugin>
+    </actor>
+
+    <actor name="walking_3">
+      <pose>10 -3 0 0 0 1.57</pose>
+      <skin>
+        <filename>model://actor/meshes/SKIN_man_blue_shirt.dae</filename>
+      </skin>
+      <animation name="walking">
+        <filename>model://actor/meshes/ANIMATION_walking.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <trajectory id="0" type="walking">   
+          <waypoint>
+            <time>0</time>
+            <pose>10 -3 0 0 0 1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>7.803741030850821</time>
+            <pose>10 3 0 0 0 1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>8.584115133935903</time>
+            <pose>10 3 0 0 0 -1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>15.607482061701642</time>
+            <pose>10 -3 0 0 0 -1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>16.387856164786726</time>
+            <pose>10 -3 0 0 0 1.57</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+      <!-- Actor plugin -->
+      <!-- Enable collisions -->
+      <plugin name="actor_collisions_plugin" filename="libCollisionActorPlugin.so">
+        <scaling collision="LHipJoint_LeftUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftUpLeg_LeftLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftLeg_LeftFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftFoot_LeftToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="RHipJoint_RightUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightUpLeg_RightLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightLeg_RightFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightFoot_RightToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="LowerBack_Spine_collision" scale="12.0 20.0 5.0" pose="0.05 0 0 0 -0.2 0"/>
+        <scaling collision="Spine_Spine1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck_Neck1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck1_Head_collision" scale="5.0 5.0 3.0"/>
+        <scaling collision="LeftShoulder_LeftArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftArm_LeftForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftForeArm_LeftHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="4.0 4.0 3.0"/>
+        <scaling collision="RightShoulder_RightArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightArm_RightForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightForeArm_RightHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="4.0 4.0 3.0"/>
+      </plugin>
+    </actor>
+
+    <actor name="walking_4">
+      <pose>20 3 0 0 0 -1.57</pose>
+      <skin>
+        <filename>model://actor/meshes/SKIN_man_red_shirt.dae</filename>
+      </skin>
+      <animation name="walking">
+        <filename>model://actor/meshes/ANIMATION_walking.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <trajectory id="0" type="walking">   
+          <waypoint>
+            <time>0</time>
+            <pose>20 3 0 0 0 -1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>7.803741030850821</time>
+            <pose>20 -3 0 0 0 -1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>8.584115133935903</time>
+            <pose>20 -3 0 0 0 1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>15.607482061701642</time>
+            <pose>20 3 0 0 0 1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>16.387856164786726</time>
+            <pose>20 3 0 0 0 -1.57</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+      <!-- Actor plugin -->
+      <!-- Enable collisions -->
+      <plugin name="actor_collisions_plugin" filename="libCollisionActorPlugin.so">
+        <scaling collision="LHipJoint_LeftUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftUpLeg_LeftLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftLeg_LeftFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftFoot_LeftToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="RHipJoint_RightUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightUpLeg_RightLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightLeg_RightFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightFoot_RightToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="LowerBack_Spine_collision" scale="12.0 20.0 5.0" pose="0.05 0 0 0 -0.2 0"/>
+        <scaling collision="Spine_Spine1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck_Neck1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck1_Head_collision" scale="5.0 5.0 3.0"/>
+        <scaling collision="LeftShoulder_LeftArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftArm_LeftForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftForeArm_LeftHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="4.0 4.0 3.0"/>
+        <scaling collision="RightShoulder_RightArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightArm_RightForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightForeArm_RightHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="4.0 4.0 3.0"/>
+      </plugin>
+    </actor>
+
+    <actor name="running_1">
+      <pose>-15 -140 0.15 0 0 0</pose>
+      <skin>
+        <filename>model://actor/meshes/SKIN_man_blue_shirt.dae</filename>
+      </skin>
+      <animation name="running">
+        <filename>model://actor/meshes/ANIMATION_running.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <trajectory id="0" type="running">   
+          <waypoint>
+            <time>0</time>
+            <pose>-15 -140 0.15 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>5</time>
+            <pose>5 -140 0.15 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>5.3</time>
+            <pose>5 -140 0.15 0 0 3.14</pose>
+          </waypoint>
+          <waypoint>
+            <time>10.3</time>
+            <pose>-15 -140 0.15 0 0 3.14</pose>
+          </waypoint>
+          <waypoint>
+            <time>10.6</time>
+            <pose>-15 -140 0.15 0 0 0</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+      <!-- Actor plugin -->
+      <!-- Enable collisions -->
+      <plugin name="actor_collisions_plugin" filename="libCollisionActorPlugin.so">
+        <scaling collision="LHipJoint_LeftUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftUpLeg_LeftLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftLeg_LeftFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftFoot_LeftToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="RHipJoint_RightUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightUpLeg_RightLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightLeg_RightFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightFoot_RightToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="LowerBack_Spine_collision" scale="12.0 20.0 5.0" pose="0.05 0 0 0 -0.2 0"/>
+        <scaling collision="Spine_Spine1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck_Neck1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck1_Head_collision" scale="5.0 5.0 3.0"/>
+        <scaling collision="LeftShoulder_LeftArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftArm_LeftForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftForeArm_LeftHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="4.0 4.0 3.0"/>
+        <scaling collision="RightShoulder_RightArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightArm_RightForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightForeArm_RightHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="4.0 4.0 3.0"/>
+      </plugin>
+    </actor>
+
+    <actor name="running_2">
+      <pose>5 -120 0.15 0 0 3.14</pose>
+      <skin>
+        <filename>model://actor/meshes/SKIN_man_red_shirt.dae</filename>
+      </skin>
+      <animation name="running">
+        <filename>model://actor/meshes/ANIMATION_running.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <trajectory id="0" type="running">   
+          <waypoint>
+            <time>0</time>
+            <pose>5 -120 0.15 0 0 3.14</pose>
+          </waypoint>
+          <waypoint>
+            <time>5</time>
+            <pose>-15 -120 0.15 0 0 3.14</pose>
+          </waypoint>
+          <waypoint>
+            <time>5.3</time>
+            <pose>-15 -120 0.15 0 0 6.28</pose>
+          </waypoint>
+          <waypoint>
+            <time>10.3</time>
+            <pose>5 -120 0.15 0 0 6.28</pose>
+          </waypoint>
+          <waypoint>
+            <time>10.6</time>
+            <pose>5 -120 0.15 0 0 3.14</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+      <!-- Actor plugin -->
+      <!-- Enable collisions -->
+      <plugin name="actor_collisions_plugin" filename="libCollisionActorPlugin.so">
+        <scaling collision="LHipJoint_LeftUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftUpLeg_LeftLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftLeg_LeftFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftFoot_LeftToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="RHipJoint_RightUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightUpLeg_RightLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightLeg_RightFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightFoot_RightToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="LowerBack_Spine_collision" scale="12.0 20.0 5.0" pose="0.05 0 0 0 -0.2 0"/>
+        <scaling collision="Spine_Spine1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck_Neck1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck1_Head_collision" scale="5.0 5.0 3.0"/>
+        <scaling collision="LeftShoulder_LeftArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftArm_LeftForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftForeArm_LeftHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="4.0 4.0 3.0"/>
+        <scaling collision="RightShoulder_RightArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightArm_RightForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightForeArm_RightHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="4.0 4.0 3.0"/>
+      </plugin>
+    </actor>
+
+    <actor name="running_3">
+      <pose>20 -110 0.15 0 0 1.57</pose>
+      <skin>
+        <filename>model://actor/meshes/SKIN_man_blue_shirt.dae</filename>
+      </skin>
+      <animation name="running">
+        <filename>model://actor/meshes/ANIMATION_running.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <trajectory id="0" type="running">   
+          <waypoint>
+            <time>0</time>
+            <pose>20 -110 0.15 0 0 1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>5</time>
+            <pose>20 -90 0.15 0 0 1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>5.3</time>
+            <pose>20 -90 0.15 0 0 -1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>10.3</time>
+            <pose>20 -110 0.15 0 0 -1.57</pose>
+          </waypoint>
+          <waypoint>
+            <time>10.6</time>
+            <pose>20 -110 0.15 0 0 1.57</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+      <!-- Actor plugin -->
+      <!-- Enable collisions -->
+      <plugin name="actor_collisions_plugin" filename="libCollisionActorPlugin.so">
+        <scaling collision="LHipJoint_LeftUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftUpLeg_LeftLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftLeg_LeftFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="LeftFoot_LeftToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="RHipJoint_RightUpLeg_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightUpLeg_RightLeg_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightLeg_RightFoot_collision" scale="8.0 8.0 1.0"/>
+        <scaling collision="RightFoot_RightToeBase_collision" scale="4.0 4.0 1.5"/>
+        <scaling collision="LowerBack_Spine_collision" scale="12.0 20.0 5.0" pose="0.05 0 0 0 -0.2 0"/>
+        <scaling collision="Spine_Spine1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck_Neck1_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="Neck1_Head_collision" scale="5.0 5.0 3.0"/>
+        <scaling collision="LeftShoulder_LeftArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="LeftArm_LeftForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftForeArm_LeftHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="4.0 4.0 3.0"/>
+        <scaling collision="RightShoulder_RightArm_collision" scale="0.01 0.001 0.001"/>
+        <scaling collision="RightArm_RightForeArm_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightForeArm_RightHand_collision" scale="5.0 5.0 1.0"/>
+        <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="4.0 4.0 3.0"/>
+      </plugin>
+    </actor>
+
+    <actor name="driving_car_1">
+      <pose>-38.4 40 0 0 0 0</pose>
+      <include>
+        <name>hatchback_blue_4</name>
+        <pose>0 0 0 0 0 -1.57</pose>
+        <uri>model://hatchback_blue</uri>
+      </include>
+      <script>
+        <trajectory id="0" type="driving">      
+          <waypoint>
+            <time>0</time>
+            <pose>-38.4 40 0 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>16</time>
+            <pose>-38.4 -40 0 0 0 0</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <actor name="driving_car_2">
+      <pose>-35.4 -40 0 0 0 0</pose>
+      <include>
+        <name>suv_5</name>
+        <pose>0 0 0 0 0 1.57</pose>
+        <uri>model://suv</uri>
+      </include>
+      <script>
+        <trajectory id="0" type="driving">      
+          <waypoint>
+            <time>0</time>
+            <pose>-35.4 -40 0 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>16</time>
+            <pose>-35.4 40 0 0 0 0</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <actor name="driving_car_3">
+      <pose>-7.899415 -35 0 0 0 0</pose>
+      <include>
+        <name>fire_truck_2</name>
+        <pose>0 0 0 0 0 -3.14</pose>
+        <uri>model://fire_truck</uri>
+      </include>
+      <script>
+        <trajectory id="0" type="driving">      
+          <waypoint>
+            <time>0</time>
+            <pose>-7.899415 -35 0 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>12</time>
+            <pose>-7.899415 -95 0 0 0 0</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <actor name="driving_car_4">
+      <pose>17.627659 -53.635761 0 0 0 0</pose>
+      <include>
+        <name>hatchback_4</name>
+        <pose>0 0 0 0 0 0</pose>
+        <uri>model://hatchback</uri>
+      </include>
+      <script>
+        <trajectory id="0" type="driving">      
+          <waypoint>
+            <time>0</time>
+            <pose>17.627659 -53.635761 0 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>15</time>
+            <pose>87.627659 -53.635761 0 0 0 0</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <actor name="driving_car_5">
+      <pose>74.887184 53.421803 0 0 0 0</pose>
+      <include>
+        <name>bus_3</name>
+        <pose>0 0 0 0 0 -1.57</pose>
+        <uri>model://bus</uri>
+      </include>
+      <script>
+        <trajectory id="0" type="driving">      
+          <waypoint>
+            <time>0</time>
+            <pose>74.887184 53.421803 0 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>15</time>
+            <pose>4.887184 53.421803 0 0 0 0</pose>
+          </waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+
+    <!--
+    <model name='cafe'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>0.254 0.254 0.254</scale>
+              <uri>model://mcity/meshes/mcity.obj</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>0.254 0.254 0.254</scale>
+              <uri>model://mcity/meshes/mcity.obj</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model> -->
+
+  </world>
+</sdf>

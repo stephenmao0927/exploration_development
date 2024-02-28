@@ -7,12 +7,11 @@
         <arg name="config" value="base"/>
      
         <arg name="x" value="0"/>
-        <arg name="y" value="-52"/>
+        <arg name="y" value="0"/>
         <arg name="z" value="1.5"/>            
 
-        <arg name="world_name" value="$(find hunter2_explorer)/world/city_openarea.world"/>
-        <!-- <arg name="world_name" value="$(find hunter2_explorer)/world/city.world"/> -->
-        <!-- <arg name="world_name" value="$(find exploration_manager)/worlds/scene_2.world"/> -->
+        <!-- <arg name="world_name" value="$(find exploration_manager)/worlds/scene_4.world"/> -->
+        <arg name="world_name" value="$(find exploration_manager)/worlds/scene_2_move.world"/>
         <!-- <arg name="world_name" value="$(find exploration_manager)/worlds/scene_3.world"/> -->
         <!-- <arg name="world_name" value="$(find exploration_manager)/worlds/scene_4.world"/> -->
 

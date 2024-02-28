@@ -254,8 +254,8 @@
     <xacro:VLP_16 name="VLP_16" namespace="${namespace}/velodyne" parent="mid_mount" topic="velodyne_points" hz="10" samples="1800" gpu="true">
 <!--  <xacro:VLP_16 name="VLP_16" namespace="${namespace}/velodyne" parent="mid_mount" topic="velodyne_points" hz="10" samples="440" gpu="false">-->
     <origin xyz="0 0 0.234" rpy="0 0 0"/>
-<!--    <origin xyz="0 0 0.135" rpy="0 0 0"/>-->
-<!--    <origin xyz="0 0 0.043" rpy="0 0 0"/>-->
+   <!-- <origin xyz="0 0 0.135" rpy="0 0 0"/> -->
+   <!-- <origin xyz="0 0 0.043" rpy="0 0 0"/> -->
   </xacro:VLP_16>
 
   <!-- Bring in simulation data for Gazebo. -->

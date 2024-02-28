@@ -12,7 +12,7 @@ Panels:
         - /UFOMap1/Use BBX1
         - /local_path_grid_map_2d1/Namespaces1
       Splitter Ratio: 0.5240740776062012
-    Tree Height: 655
+    Tree Height: 334
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -294,10 +294,10 @@ Visualization Manager:
     - Class: UFOMap
       Enabled: true
       Information:
-        "# Inner Nodes": 10,929
-        "# Leaf Nodes": 23,456
+        "# Inner Nodes": 10,441
+        "# Leaf Nodes": 23,480
         Resolution: 40 cm
-        Size: 262.39 KiB
+        Size: 254.86 KiB
       Min. Depth: 0
       Name: UFOMap
       Occupancy Thresholds:
@@ -479,8 +479,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 6.304668204393238e-06
-        Min Value: -0.00019232527120038867
+        Max Value: -0.00024144498456735164
+        Min Value: -0.00027285449323244393
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -532,7 +532,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.05356861650943756
+      Distance: 58.27420425415039
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -540,17 +540,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -2.315899610519409
-        Y: -3.5348076820373535
-        Z: -1.4121356010437012
+        X: 2.4888947010040283
+        Y: 0.3719654083251953
+        Z: 4.170897006988525
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.484796404838562
+      Pitch: 0.8297972679138184
       Target Frame: base_link
-      Yaw: 3.140380382537842
+      Yaw: 3.9954090118408203
     Saved: ~
 Window Geometry:
   Displays:

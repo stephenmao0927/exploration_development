@@ -6,11 +6,11 @@
     <include file="$(find jackal_gazebo)/launch/jackal_world.launch">
         <arg name="config" value="base"/>
      
-        <arg name="x" value="0"/>
-        <arg name="y" value="-52"/>
+        <arg name="x" value="-20"/>
+        <arg name="y" value="-122"/>
         <arg name="z" value="1.5"/>            
 
-        <arg name="world_name" value="$(find hunter2_explorer)/world/city_openarea.world"/>
+        <arg name="world_name" value="$(find hunter2_explorer)/world/city_openarea_moving.world"/>
         <!-- <arg name="world_name" value="$(find hunter2_explorer)/world/city.world"/> -->
         <!-- <arg name="world_name" value="$(find exploration_manager)/worlds/scene_2.world"/> -->
         <!-- <arg name="world_name" value="$(find exploration_manager)/worlds/scene_3.world"/> -->
