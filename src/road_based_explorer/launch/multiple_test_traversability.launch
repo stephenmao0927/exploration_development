@@ -13,31 +13,31 @@
 
 
 	<group ns="/robot_1" >
-		<include file="$(find new_detector)/launch/include/start_detector.launch">
+		<include file="$(find road_based_explorer)/launch/include/start_detector.launch">
 			<arg name="robot_name" value="robot_1"/>
 		</include>
 
-		<include file="$(find new_detector)/launch/include/start_filter.launch">
+		<include file="$(find road_based_explorer)/launch/include/start_filter.launch">
 			<arg name="robot_name" value="robot_1"/>
 			<arg name="exploation_points" value="[(-20, 5), (60, -55)]"/>
 		</include>
 
-		<include file="$(find new_detector)/launch/include/start_assigner.launch">
+		<include file="$(find road_based_explorer)/launch/include/start_assigner.launch">
 			<arg name="robot_name" value="robot_1"/>
 		</include>
 	</group>
 
 	<group ns="/robot_2" >
-		<include file="$(find new_detector)/launch/include/start_detector.launch">
+		<include file="$(find road_based_explorer)/launch/include/start_detector.launch">
 			<arg name="robot_name" value="robot_2"/>
 		</include>
 
-		<include file="$(find new_detector)/launch/include/start_filter.launch">
+		<include file="$(find road_based_explorer)/launch/include/start_filter.launch">
 			<arg name="robot_name" value="robot_2"/>
 			<arg name="exploation_points" value="[(-40, 5), (20, -55)]"/>
 		</include>
 
-		<include file="$(find new_detector)/launch/include/start_assigner.launch">
+		<include file="$(find road_based_explorer)/launch/include/start_assigner.launch">
 			<arg name="robot_name" value="robot_2"/>
 		</include>
 	</group>

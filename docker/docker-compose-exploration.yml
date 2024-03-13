@@ -9,7 +9,7 @@ services:
     tty: true # allocates a pseudo-TTY for the container, which is required for running interactive shell commands in the container.
     volumes: # Mount the following volumes in the container
       - type: bind # Bind mount the host directory into the container
-        source: /home/conti/catkin_ws/src/hunter_exploration-main
+        source: /home/conti/hunter_explo_road_based
         target: /home/user/catkin_ws/src/hunter_exploration
       - /tmp/.X11-unix:/tmp/.X11-unix
     environment: # Set the following environment variables in the container

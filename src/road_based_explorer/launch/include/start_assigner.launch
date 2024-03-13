@@ -2,7 +2,7 @@
 <!--Launch file for running the multirobot simulation on gazebo-->   
     <arg name="robot_name" default="/"/>
 
-    <node pkg="new_detector" type="new_assigner_single_teb_v4.py" name="assigner" output="screen">
+    <node pkg="road_based_explorer" type="new_assigner_single_teb_v4.py" name="assigner" output="screen">
 
       <param name="map_topic" value="/$(arg robot_name)/move_base_node/global_costmap/costmap"/>
       <param name="robot_name" value="$(arg robot_name)"/>
