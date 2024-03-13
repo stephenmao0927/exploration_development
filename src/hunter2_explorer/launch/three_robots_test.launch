@@ -1,0 +1,19 @@
+<!-- Launch file for the rrt-detector and the assigner -->
+<launch>
+  <param name="/use_sim_time" value="true" />
+  <arg name="eta" value="4.0"/>
+  <arg name="Geta" value="1.0"/>
+  <param name="namespace_init_count" value="1"/>
+  <param name="debug" value="true"/>
+
+  <!-- transformation between robots-->
+  <node pkg="tf" type="static_transform_publisher" name="robot2_to_robot1" args="3 0 0 0 0 0 /robot_1/map /robot_2/map 20" />
+  <node pkg="tf" type="static_transform_publisher" name="robot3_to_robot1" args="6 0 0 0 0 0 /robot_1/map /robot_3/map 20" />
+
+  <!-- Map megring (know inital position case)-->
+  <include file="$(find hunter2_explorer)/launch/include/initposes_three.launch"/>
+  <include file="$(find hunter2_explorer)/launch/include/map_merge.launch"/>
+
+  <node pkg="rviz" type="rviz" name="rviz" output="log" args="-d $(find hunter2_explorer)/launch/include/rviz_config/display.rviz" />
+</launch>
+

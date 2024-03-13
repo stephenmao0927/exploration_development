@@ -1,0 +1,51 @@
+<launch>
+<!--
+Launch file for running the multirobot simulation on gazebo
+-->
+<param name="robot_1/radius" value=""/>
+<param name="robot_3/radius" value=""/>
+<param name="robot_2/radius" value=""/>
+<!-- <param name="robot_1/new_path_ready" value="not"/>
+<param name="robot_2/new_path_ready" value="not"/>
+<param name="robot_3/new_path_ready" value="not"/> -->
+
+<node pkg="new_detector" type="detector_v2.py" name="detector1" output="screen">
+	<param name="costmap_topic" value="robot_1/move_base_node/global_costmap/costmap"/>
+	<param name="odometry_topic" value="/robot_1/odom"/>
+</node>
+
+
+<!-- <node pkg="new_detector" type="new_filter.py" name="filter" output="screen">
+	<param name="map_topic" value="robot_1/map"/>
+	<param name="info_radius" value="80"/> 
+	<param name="costmap_clearing_threshold" value="70"/> 
+	<param name="goals_topic" value="/detected_points"/>
+	<param name="namespace" value=""/> 
+	<param name="n_robots" value="1"/>
+	<param name="rate" value="100"/>
+	<param name="global_costmap_topic" value="robot_1/map"/>
+</node> -->
+
+<!-- <node pkg="new_detector" type="new_assigner.py" name="assigner" output="screen">
+	<param name="map_topic" value="robot_1/map"/>
+	<param name="global_frame" value="robot_1/map"/>
+	<param name="info_radius" value="1"/> 
+	<param name="info_multiplier" value="3.0"/> 
+	<param name="hysteresis_radius" value="3.0"/> 
+	<param name="hysteresis_gain" value="2.0"/> 
+	<param name="frontiers_topic" value="filtered_points"/> 
+	<param name="n_robots" value="1"/>
+	<param name="namespace" value="robot_"/>
+	<param name="delay_after_assignement" value="0.2"/>
+	<param name="rate" value="100"/>
+</node> -->
+
+<!-- spawn robot 3-->
+<!-- <group ns="/robot_3">
+	<include file="$(find hunter2_explorer)/launch/include/robot_new.launch">
+		<arg name="robot_name" value="robot_3"/>
+		<arg name="init_pose" value="-x 3 -y -0.0 -z 0.4"/>
+	</include>
+</group> -->
+
+</launch>

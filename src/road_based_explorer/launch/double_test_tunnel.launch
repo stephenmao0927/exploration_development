@@ -1,0 +1,91 @@
+<launch>
+<!--
+Launch file for running the multirobot simulation on gazebo
+-->
+<param name="robot_1/goal" value=""/>
+<param name="robot_3/goal" value=""/>
+<param name="robot_2/goal" value=""/>
+
+<include file="$(find gazebo_ros)/launch/empty_world.launch">
+<arg name="use_sim_time" value="true"/>
+<arg name="debug" value="false"/>
+<arg name="gui" value="true"/>
+<arg name="world_name" value="$(find hunter2_explorer)/world/tunnel.world"/>
+</include>
+
+<!-- spawn robot 1-->
+<group ns="/robot_1">
+	<include file="$(find hunter2_explorer)/launch/include/robot.launch">
+		<arg name="robot_name" value="robot_1"/>
+		<arg name="init_pose" value="-x 0.0 -y 0.0 -z 0.4"/>
+	</include>
+	<include file="$(find hunter2_explorer)/launch/include/move_baseSafe.launch">
+		<arg name="namespace" value="robot_1"/>
+	</include> 
+</group>
+
+<!-- spawn robot 2 -->
+<group ns="/robot_2">
+	<include file="$(find hunter2_explorer)/launch/include/robot2.launch">
+		<arg name="robot_name" value="robot_2"/>
+		<arg name="init_pose" value="-x 0.0 -y 15.0 -z 0.4"/>
+	</include>
+	<include file="$(find hunter2_explorer)/launch/include/move_baseSafe.launch">
+		<arg name="namespace" value="robot_2"/>
+	</include> 
+</group>
+
+<node pkg="tf" type="static_transform_publisher" name="robot2_to_robot1" args="0 15.0 0 0 0 0 /robot_1/map /robot_2/map 20" />
+<include file="$(find hunter2_explorer)/launch/include/map_merge.launch"/>
+
+<node pkg="new_detector" type="detector.py" name="detector1" output="screen">
+	<param name="costmap_topic" value="robot_1/map"/>
+	<param name="odometry_topic" value="/robot_1/odom"/>
+	<param name="radius" value="40"/>
+	<param name="number" value="30"/>
+</node>
+
+<node pkg="new_detector" type="detector.py" name="detector2" output="screen">
+	<param name="costmap_topic" value="robot_2/map"/>
+	<param name="odometry_topic" value="/robot_2/odom"/>
+	<param name="radius" value="40"/>
+	<param name="number" value="30"/>
+</node>
+
+<!-- <node pkg="new_detector" type="new_filter.py" name="filter" output="screen">
+	<param name="map_topic" value="robot_1/map"/>
+	<param name="info_radius" value="80"/> 
+	<param name="costmap_clearing_threshold" value="70"/> 
+	<param name="goals_topic" value="/detected_points"/>
+	<param name="namespace" value=""/> 
+	<param name="n_robots" value="1"/>
+	<param name="rate" value="100"/>
+	<param name="global_costmap_topic" value="robot_1/map"/>
+</node> -->
+
+<!-- <node pkg="new_detector" type="new_assigner.py" name="assigner" output="screen">
+	<param name="map_topic" value="robot_1/map"/>
+	<param name="global_frame" value="robot_1/map"/>
+	<param name="info_radius" value="1"/> 
+	<param name="info_multiplier" value="3.0"/> 
+	<param name="hysteresis_radius" value="3.0"/> 
+	<param name="hysteresis_gain" value="2.0"/> 
+	<param name="frontiers_topic" value="filtered_points"/> 
+	<param name="n_robots" value="1"/>
+	<param name="namespace" value="robot_"/>
+	<param name="delay_after_assignement" value="0.2"/>
+	<param name="rate" value="100"/>
+</node> -->
+
+<!-- spawn robot 3-->
+<!-- <group ns="/robot_3">
+	<include file="$(find hunter2_explorer)/launch/include/robot_new.launch">
+		<arg name="robot_name" value="robot_3"/>
+		<arg name="init_pose" value="-x 3 -y -0.0 -z 0.4"/>
+	</include>
+</group> -->
+
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find hunter2_explorer)/launch/include/rviz_config/double.rviz">
+<remap from="move_base_simple/goal" to="robot_1/move_base_simple/goal"/>
+</node>
+</launch>

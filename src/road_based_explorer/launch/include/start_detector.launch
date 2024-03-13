@@ -1,0 +1,13 @@
+<launch>
+<!--Launch file for running the multirobot simulation on gazebo-->   
+    <arg name="robot_name" default=""/>
+
+    <node pkg="new_detector" type="detector_v4.py" name="detector" output="screen">
+      <param name="costmap_topic" type="string" value="/$(arg robot_name)/move_base_node/global_costmap/costmap"/>
+      <param name="odometry_topic" type="string" value="/$(arg robot_name)/Odometry"/>
+      <param name="radius" type="int" value = "60"/>
+      <param name="number" type="int" value = "40"/>
+      <param name="robot_name" type="string" value="$(arg robot_name)"/>
+	  </node>
+
+</launch>

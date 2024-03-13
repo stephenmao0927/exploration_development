@@ -1,0 +1,40 @@
+<launch>
+<!--Launch file for running the multirobot exploration-->
+
+	<!-- <param name="robot_1/goal" value=""/>
+	<param name="robot_2/goal" value=""/>
+	<param name="robot_3/goal" value=""/>
+
+	<param name="robot_1/get_goal_status" value="ready"/>
+	<param name="robot_2/get_goal_status" value="ready"/>
+
+	<param name="robot_1/need_change_radius" value="no"/>
+	<param name="robot_2/need_change_radius" value="no"/> -->
+
+
+	<group ns="/robot_1" >
+		<include file="$(find new_detector)/launch/include/explore_hunter.launch">
+			<arg name="robot_name" value="robot_1"/>
+		</include>
+		
+		<!-- <include file="$(find new_detector)/launch/include/fe_set_explore_area.launch">
+			<arg name="robot_name" value="robot_1"/>
+			<arg name="exploation_points" value="[(-5, 5), (30, -20)]"/>
+		</include> -->
+
+	</group>
+
+	<!-- <group ns="/robot_2" >
+		<include file="$(find new_detector)/launch/include/start_detector.launch">
+			<arg name="robot_name" value="robot_2"/>
+		</include>
+
+	</group> -->
+
+	<!-- run RViz node (visualization) -->
+	<!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find hunter2_explorer)/launch/include/rviz_config/explore_lite_single.rviz">
+		<remap from="move_base_simple/goal" to="robot_1/move_base_simple/goal"/>
+		<remap from="clicked_point" to="robot_1/clicked_point"/>
+	</node> -->
+
+</launch>

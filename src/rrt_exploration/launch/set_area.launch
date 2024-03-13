@@ -1,0 +1,10 @@
+<!-- Launch file for the rrt-detector and the assigner -->
+
+
+<launch>
+
+
+<node pkg="rrt_exploration" type="get_four_points.py" name="set_area" output="screen"/>
+
+  
+</launch>

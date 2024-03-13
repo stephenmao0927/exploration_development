@@ -1,0 +1,15 @@
+<launch>
+<!--Launch file for running the multirobot simulation on gazebo-->   
+    <arg name="robot_name" default=""/>
+    <arg name="exploation_points" default=""/>
+
+    <node pkg="new_detector" type="exploration_area.py" name="area_config" output="screen">
+
+      <param name="robot_name" type="string" value="$(arg robot_name)"/>
+      <param name="exploration_points" value="$(arg exploation_points)"/>
+      <param name="little_gain_distance" type="double" value="2"/>
+
+	  </node>
+
+
+</launch>
