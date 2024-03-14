@@ -797,6 +797,8 @@ def node():
             tempPoint.y = i[1]
             arraypoints.points.append(copy(tempPoint))
         filterpub.publish(arraypoints)
+        explo_p_n = str(len(all_centroid))
+        # rospy.loginfo(explo_p_n + ' exploration goals are published')
 
         pp = []
         for m in range(0, len(all_centroid)):

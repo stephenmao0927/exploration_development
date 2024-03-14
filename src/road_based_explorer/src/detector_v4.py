@@ -55,6 +55,7 @@ class CostMap(object):
         width = copy.deepcopy(self.width)
         height = copy.deepcopy(self.height)
         size = [width, height]
+        # print("Resolution  :::",self.msg.info.resolution)
         # costmap = copy.deepcopy(self.map_data)
         return size
 

@@ -46,7 +46,7 @@ class robot:
         # print('robot frame: ', self.robot_frame)
         
         self.global_frame = self.name+'/map'
-        self.robot_frame = self.name+'/base_footprint'
+        self.robot_frame = self.name+'/camera_init'
 
         self.plan_service = rospy.get_param(
             # '~plan_service', '/move_base_node/NavfnROS/make_plan')
@@ -61,13 +61,13 @@ class robot:
             try:
                 # print(self.global_frame, self.robot_frame)
                 rospy.loginfo('Waiting for the robot transform')
+                print(self.global_frame, self.robot_frame)
                 (trans, rot) = self.listener.lookupTransform(
                     # self.global_frame, self.name+'/'+self.robot_frame, rospy.Time(0))
                     self.global_frame, self.robot_frame, rospy.Time(0))
                 cond = 1
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-                cond == 0
-
+                cond = 0
         
         self.position = array([trans[0], trans[1]])
         self.assigned_point = self.position
@@ -75,10 +75,12 @@ class robot:
             '/'+self.name+'/move_base', MoveBaseAction)
         self.client.wait_for_server()
 
-        rospy.wait_for_service('/'+self.name+self.plan_service)
-        
-        self.make_plan = rospy.ServiceProxy(
-            self.name+self.plan_service, GetPlan)
+        # rospy.wait_for_service('/'+self.name+self.plan_service)
+        # self.make_plan = rospy.ServiceProxy(
+        #     self.name+self.plan_service, GetPlan)
+
+        rospy.logwarn('hey I am here')
+
         
         # robot.start.header.frame_id = self.name[1:]+'/map'
         # robot.end.header.frame_id = self.name[1:]+'/map'

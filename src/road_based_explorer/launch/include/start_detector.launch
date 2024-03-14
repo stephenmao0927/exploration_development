@@ -1,11 +1,12 @@
 <launch>
 <!--Launch file for running the multirobot simulation on gazebo-->   
-    <arg name="robot_name" default=""/>
+    <arg name="robot_name" default="robot_2"/>
 
     <node pkg="road_based_explorer" type="detector_v4.py" name="detector" output="screen">
       <param name="costmap_topic" type="string" value="/$(arg robot_name)/move_base_node/global_costmap/costmap"/>
       <param name="odometry_topic" type="string" value="/$(arg robot_name)/Odometry"/>
-      <param name="radius" type="int" value = "60"/>
+      <param name="radius" type="int" value = "120"/>
+      <!-- 60 to 120 as resolution of global mao change from 0.1 to 0.05 -->
       <param name="number" type="int" value = "40"/>
       <param name="robot_name" type="string" value="$(arg robot_name)"/>
 	  </node>

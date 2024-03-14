@@ -100,13 +100,14 @@ ready_to_send = False
 def callBack(data):
 	global frontiers, current_goal_id, robot_state, history_position, stuck_count, n_robots, robots, robot_name, current_goal, corner, waiting_count, delay_after_assignement, ready_to_send
 	
+	# rospy.logwarn("inside callback")	
 	frontiers=[]
 	for point in data.points:
 		frontiers.append(array([point.x,point.y]))
 
 	centroids=copy(frontiers)		
-	# if len(centroids)>0:
-	# 	rospy.loginfo("centroids received")	
+	if len(centroids)>0:
+		rospy.loginfo("centroids received")	
 #-------------------------------------------------------------------------			
 # #Get information gain for each frontier point
 # 		infoGain=[]
@@ -266,7 +267,7 @@ def node():
 	# elif len(namespace)==0:
 	a = robot(robot_name)
 	robots.append(a)
-	
+
 	for i in range(0,n_robots):
 		# rospy.loginfo(robots[i].getPosition())
 		robots[i].sendGoal(robots[i].getPosition())
