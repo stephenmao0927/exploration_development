@@ -6,8 +6,8 @@
 ```bash
 # if you build container on wsl2
 docker-compose -f docker-compose.yml up
-# if you build container on linux system
-docker-compose -f docker-compose_server2 up
+# for deploying on hunter
+docker-compose -f docker-compose-exploration-deploy.yml
 ```
 #### 2.2 Building an image manually
 **Notice:** I built the docker on wsl2
@@ -37,9 +37,10 @@ roslaunch hunter2_explorer three_robots.launch
 ### dependencies of new detector
 ```bash
 pip install transforms3d==0.3.1 rospkg
-``` 
+```
 ## Update
 ### **2023.08.07 update:** test two robots demo
+
 1. How to run two robots demo
 ```bash
 # in simulation docker
@@ -61,9 +62,24 @@ roslaunch new_detector multiple_test_traversability.launch
 ```
 `(x1,y1)` is the top left point, `(x2,y2)` is the bottom right point
 
+### 2024.03.14 update: using a single script to start exploration in simulation
+
+```bash
+# in simulation docker
+roslaunch hunter2_explorer multiple_simulated_city_teb.launch
+# in traversability_analysis docker
+roslaunch traversability_mapping run_mapping_fastlio_two_robots.launch
+# in exploration docker
+sudo zsh run_exploration_map_merge.sh
+```
+
+This script will handle all the preparation work, including publishing cmd to drive the robot  for a few seconds to make all the nearby area known, and start the exploration and map merge algorithm.
+
 ## Debug log
+
 ### 1. The "multirobot_map_merge" has been updated, some users have reported problems getting correct map merging. However, the old version still works fine.
 **Solution:** Git clone [old version](https://github.com/hasauino/m-explore) instead of ```sudo apt install ros-melodic-multirobot-map-merge ros-melodic-explore-lite```
+
 ### 2. The distances between robots are not correct, i.e. 3 meters in gazebo but 6 meters in rviz.
 No error when subscribing map from traversability analysis
 ### 3. three robots are considered obstacles on merged map
