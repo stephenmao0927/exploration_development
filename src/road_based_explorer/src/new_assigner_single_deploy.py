@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-#coding: utf-8 
+#coding: utf-8
 # created and maintained by Stephen Mao (maok0002@e.ntu.edu.sg)
-
 
 #--------Include modules---------------
 from copy import copy
@@ -20,7 +19,7 @@ from numpy import linalg as LA
 from numpy import all as All
 from numpy import abs
 import math 
-from functions_new import robot,informationGain,discount
+from functions_deploy import robot,informationGain,discount
 from numpy.linalg import norm
 from transforms3d.euler import quat2euler
 

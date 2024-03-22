@@ -46,7 +46,7 @@ class robot:
         # print('robot frame: ', self.robot_frame)
         
         self.global_frame = self.name+'/map'
-        self.robot_frame = self.name+'/base_footprint'
+        self.robot_frame = self.name+'/camera_init'
 
         self.plan_service = rospy.get_param(
             # '~plan_service', '/move_base_node/NavfnROS/make_plan')
@@ -75,9 +75,9 @@ class robot:
             '/'+self.name+'/move_base', MoveBaseAction)
         self.client.wait_for_server()
 
-        rospy.wait_for_service('/'+self.name+self.plan_service)
-        self.make_plan = rospy.ServiceProxy(
-            self.name+self.plan_service, GetPlan)
+        # rospy.wait_for_service('/'+self.name+self.plan_service)
+        # self.make_plan = rospy.ServiceProxy(
+        #     self.name+self.plan_service, GetPlan)
 
         rospy.logwarn('hey I am here')
 
@@ -262,4 +262,3 @@ def gridValue(mapData, Xp):
         return Data[int(index)]
     else:
         return 100
-

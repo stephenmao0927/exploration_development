@@ -1,6 +1,6 @@
 <launch>
 <!--Launch file for running the multirobot simulation on gazebo-->   
-    <arg name="robot_name" default="robot_1"/>
+    <arg name="robot_name" default="robot_2"/>
 
     <node pkg="road_based_explorer" type="detector_v4.py" name="detector" output="screen">
       <param name="costmap_topic" type="string" value="/$(arg robot_name)/move_base_node/global_costmap/costmap"/>

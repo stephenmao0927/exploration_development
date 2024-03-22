@@ -2,6 +2,7 @@
 
 import rospy
 import tf
+import numpy as np
 from numpy import array
 import actionlib
 import math
@@ -79,7 +80,7 @@ class robot:
         self.make_plan = rospy.ServiceProxy(
             self.name+self.plan_service, GetPlan)
 
-        rospy.logwarn('hey I am here')
+        # rospy.logwarn('hey I am here')
 
         
         # robot.start.header.frame_id = self.name[1:]+'/map'
@@ -263,3 +264,85 @@ def gridValue(mapData, Xp):
     else:
         return 100
 
+def GridCoordinate(mapData, p):
+    ''' world coordinate to grid coordinate '''
+    resolution = mapData.info.resolution
+    startx = mapData.info.origin.position.x
+    starty = mapData.info.origin.position.y
+    gridplace = (int(np.floor((p[0]-startx)/resolution)),
+            int(np.floor((p[1]-starty)/resolution)))
+    return gridplace
+
+def WorldCoordinate(mapData, list):
+    output_list = []
+    ''' grid coordinate to world coordinate '''
+    resolution = mapData.info.resolution
+    x = mapData.info.origin.position.x
+    y = mapData.info.origin.position.y
+
+    for i in range(len(list)):
+        output_list.append((resolution*list[i][0]+ x, resolution*list[i][1]+ y))
+    return output_list
+
+def BresenhamLine(mapData, x1, y1, x2, y2):
+    line = []
+    processed_line = []
+    dx = abs(x2 - x1)
+    dy = abs(y2 - y1)
+    
+    s1 = 1 if ((x2 - x1) > 0) else -1
+    s2 = 1 if ((y2 - y1) > 0) else -1
+
+    boolInterChange = False
+    if dy > dx:
+        inter = dy
+        dy = dx
+        dx = inter
+        boolInterChange = True
+
+    line.append(np.array([x1,y1]))
+    e = 2 * dy - dx
+    x = x1
+    y = y1
+    for i in range(0, int(dx + 1)):
+        if e >= 0:
+
+            if boolInterChange:
+                x += s1
+            else:
+                y += s2
+            e -= 2 * dx
+
+        if boolInterChange:
+            y += s2
+        else:
+            x += s1
+        e += 2 * dy
+        line.append(np.array([x,y]))
+    processed_line = WorldCoordinate(mapData, line)
+    return processed_line, line
+
+def GridValueList(mapData, list):
+    ''' judge whether a set of pixels on 2d occupency map are all free spaces '''
+    width = mapData.info.width
+    # height = mapData.info.height
+    Data = mapData.data
+
+    for i in range(len(list)):
+        index = list[i][1]*width + list[i][0]
+        if Data[int(index)] == 0:
+            continue
+        else:
+            return False
+    return True
+
+def GridValuePoint(mapData, p):
+    ''' judge whether a single pixel on 2d occupency map is a free space '''
+    width = mapData.info.width
+    height = mapData.info.height
+    Data = mapData.data
+    index = p[1]*width + p[0]
+    if Data[int(index)] == 0:
+        return True
+    else:
+        return False

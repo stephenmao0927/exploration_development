@@ -13,7 +13,8 @@ from geometry_msgs.msg import Quaternion, Point
 from visualization_msgs.msg import Marker
 from transforms3d.euler import quat2euler
 from collections import deque
-from rrt_exploration.msg import RoboArcArray,PointArray
+from road_based_explorer.msg import RoboArcArray
+from rrt_exploration.msg import PointArray
 
 costmap_topic = rospy.get_param('detector/costmap_topic', default='/')
 odom_topic = rospy.get_param('detector/odometry_topic',default='/')
@@ -448,24 +449,35 @@ class Pick_Points(object):
 
         if len(sorted_tuples) > 0:
             current_list = [sorted_tuples[0][0]]  # 创建第一个列表，并将第一个坐标元组加入其中
+            # current_index = [sorsted_tuples[0][1]]
+            # overall_index = []
+
+            # rospy.logwarn("total point number is "+str(len(self.circle_point_value)))
 
             for i in range(1, len(sorted_tuples)):
                 if sorted_tuples[i][1] - sorted_tuples[i - 1][1] <= round(len(self.circle_point_value)/number)+1:
                     current_list.append(sorted_tuples[i][0])
+                    # current_index.append(sorted_tuples[i][1])
+
                 else:
                     self.final.append(current_list)
+                    # overall_index.append(current_index)
                     current_list = [sorted_tuples[i][0]]
+                    # current_index = [sorted_tuples[i][1]]
 
         # 添加最后一个列表
             if i < len(sorted_tuples):
-                if len(self.circle_point_value)-sorted_tuples[i][1] <= round(len(self.circle_point_value)/number) and len(self.final) > 0:
-                    self.final[0] = self.final[0] + current_list
+                if len(self.circle_point_value)- 1 -sorted_tuples[i][1] <= round(len(self.circle_point_value)/number) and len(current_list) > 0 and len(self.final) > 0:
+                    self.final[0] =  current_list + self.final[0]
+                    # overall_index[0] = current_index + overall_index[0] 
                 else:
                     self.final.append(current_list)
+                    # overall_index.append(current_index)
             else:
                 self.final.append(current_list)
-        
-
+                # overall_index.append(current_index)
+            
+            # print(overall_index)
 
 class Publish(object):
     def __init__(self, world_list):
@@ -519,6 +531,7 @@ def main():
     tf_listener = tf2_ros.TransformListener(tf_buffer)
     map_pose = PoseStamped()
     while not rospy.is_shutdown(): 
+        # rospy.logwarn("detector runnning")
         costmap = CostMap()
         map_size = costmap.get_map()
         get_odom = Get_Odom()

@@ -12,7 +12,7 @@
 	<param name="robot_2/need_change_radius" value="no"/>
 
 
-	<!-- <group ns="/robot_1" >
+	<group ns="/robot_1" >
 		<include file="$(find road_based_explorer)/launch/include/start_detector.launch">
 			<arg name="robot_name" value="robot_1"/>
 		</include>
@@ -22,16 +22,12 @@
 			<arg name="exploation_points" value="[(-20, 5), (60, -55)]"/>
 		</include>
 
-		<include file="$(find road_based_explorer)/launch/include/start_server.launch">
-			<arg name="robot_name" value="robot_1"/>
-		</include>
-
 		<include file="$(find road_based_explorer)/launch/include/start_assigner.launch">
 			<arg name="robot_name" value="robot_1"/>
 		</include>
-	</group> -->
+	</group>
 
-	<group ns="/robot_2" >
+	<!-- <group ns="/robot_2" >
 		<include file="$(find road_based_explorer)/launch/include/start_detector.launch">
 			<arg name="robot_name" value="robot_2"/>
 		</include>
@@ -41,14 +37,10 @@
 			<arg name="exploation_points" value="[(-40, 5), (20, -55)]"/>
 		</include>
 
-		<include file="$(find road_based_explorer)/launch/include/start_server.launch">
-			<arg name="robot_name" value="robot_2"/>
-		</include>
-
 		<include file="$(find road_based_explorer)/launch/include/start_assigner.launch">
 			<arg name="robot_name" value="robot_2"/>
 		</include>
-	</group>
+	</group> -->
 
 	<!-- run RViz node (visualization) -->
 	<!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find hunter2_explorer)/launch/include/rviz_config/hunter_1.rviz">

@@ -19,8 +19,6 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   PointArray.msg
-  RoboPointArray.msg
-  RoboArcArray.msg
 )
 
 generate_messages(

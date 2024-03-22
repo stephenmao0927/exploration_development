@@ -3,7 +3,7 @@
     <arg name="robot_name" default=""/>
     <arg name="exploation_points" default=""/>
 
-    <node pkg="road_based_explorer" type="new_filter_single_v8.py" name="filter" output="screen">
+    <node pkg="road_based_explorer" type="filter_service.py" name="filter" output="screen">
 
       <param name="map_topic" type="string" value="/$(arg robot_name)/move_base_node/global_costmap/costmap"/>
       <param name="goals_topic" type="string" value="/$(arg robot_name)/detected_points"/>

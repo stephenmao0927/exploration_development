@@ -2,13 +2,13 @@
 <!--Launch file for running the multirobot simulation on gazebo-->   
     <arg name="robot_name" default="/"/>
 
-    <node pkg="road_based_explorer" type="new_assigner_single_teb_v4.py" name="assigner" output="screen">
+    <node pkg="road_based_explorer" type="assigner_service.py" name="assigner" output="screen">
 
       <param name="map_topic" value="/$(arg robot_name)/move_base_node/global_costmap/costmap"/>
       <param name="robot_name" value="$(arg robot_name)"/>
       <param name="global_frame" value="$(arg robot_name)/map"/>
       <param name="robot_frame" value="$(arg robot_name)/base_footprint"/>
-      <param name="frontiers_topic" value="/$(arg robot_name)/filtered_points"/> 
+      <!-- <param name="frontiers_topic" value="/$(arg robot_name)/filtered_points"/>  -->
       <param name="delay_after_assignement" value="0.2"/>
       <param name="rate" value="5"/>
 

@@ -1,0 +1,12 @@
+<launch>
+<!--Launch file for running the multirobot simulation on gazebo-->   
+    <arg name="robot_name" default="/"/>
+
+    <node pkg="road_based_explorer" type="goal_server.py" name="server" output="screen">
+
+      <param name="robot_name" value="$(arg robot_name)"/>
+      <param name="goal_topic" value="/$(arg robot_name)/filtered_points"/>
+
+	  </node>
+
+</launch>

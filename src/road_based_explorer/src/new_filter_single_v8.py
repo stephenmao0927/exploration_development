@@ -13,7 +13,8 @@ from geometry_msgs.msg import PointStamped, PolygonStamped
 import tf
 from numpy import array, vstack, fromstring, array_equal, delete, round, linalg
 from sklearn.cluster import MeanShift
-from rrt_exploration.msg import RoboArcArray,PointArray
+from road_based_explorer.msg import RoboArcArray
+from rrt_exploration.msg import PointArray
 from actionlib_msgs.msg import GoalStatusArray
 import ast
 import matplotlib.pyplot as plt

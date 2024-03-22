@@ -17,7 +17,7 @@ from numpy import linalg as LA
 from numpy import all as All
 from numpy import abs
 import math 
-from functions_new import robot,informationGain,discount
+from hunter_exploration.src.road_based_explorer.src.functions_deploy import robot,informationGain,discount
 from numpy.linalg import norm
 from transforms3d.euler import quat2euler
 

@@ -1,0 +1,6 @@
+# transfer_goal.srv
+
+bool need_goal
+---
+rrt_exploration/PointArray goals
+rrt_exploration/PointArray positions
